@@ -1,0 +1,39 @@
+SQL> declare
+  2  v_num1 number(3);
+  3  v_num2 number(3);
+  4  v_num3 number(3);
+  5  begin
+  6  v_num1:=6;
+  7  v_num2:=5;
+  8  v_num3:=v_num1+v_num2;
+  9  dbms_output.put_line('the sum is '||v_num3);
+ 10  end;
+ 11  /
+the sum is 11
+
+PL/SQL procedure successfully completed.
+
+SQL> set serverout on
+SQL> /
+the sum is 11
+
+PL/SQL procedure successfully completed.
+
+SQL> declare
+  2  num1 number:=&v_num1;
+  3  num2 number:=&v_num2;
+  4  num3 number;
+  5  begin
+  6  num3:=num1+num2;
+  7  dbms_output.put_line('the sum is '||num3);
+  8  end;
+  9  /
+Enter value for v_num1: 16
+old   2: num1 number:=&v_num1;
+new   2: num1 number:=16;
+Enter value for v_num2: 12
+old   3: num2 number:=&v_num2;
+new   3: num2 number:=12;
+the sum is 28
+
+PL/SQL procedure successfully completed.
