@@ -1,0 +1,62 @@
+SQL> variable c number
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  a number:=&a;
+  3  b number:=&b;
+  4  begin
+  5  :c:=a+b;
+  6* end;
+SQL> /
+Enter value for a: 10
+old   2: a number:=&a;
+new   2: a number:=10;
+Enter value for b: 20
+old   3: b number:=&b;
+new   3: b number:=20;
+
+PL/SQL procedure successfully completed.
+
+SQL> print c
+
+         C
+----------
+        30
+
+SQL> variable p_name varchar2(10)
+SQL> variable p_job varchar2(10)
+SQL> variable p_sal number
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  v_empno emp.empno%type:=&v_empno;
+  3  begin
+  4  select ename, job, sal into
+  5  :p_name, :p_job, :p_sal
+  6  from emp
+  7  where empno=v_empno;
+  8* end;
+SQL> /
+Enter value for v_empno: 7900
+old   2: v_empno emp.empno%type:=&v_empno;
+new   2: v_empno emp.empno%type:=7900;
+
+PL/SQL procedure successfully completed.
+
+SQL> print p_name p_job p_sal
+
+P_NAME
+--------------------------------
+JAMES
+
+
+P_JOB
+--------------------------------
+CLERK
+
+
+     P_SAL
+----------
+       950
