@@ -1,0 +1,121 @@
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace procedure pro1(a in number, b in number, c out number)
+  2      is
+  3      begin
+  4      c:=a+b;
+  5*    end;
+SQL> /
+
+Procedure created.
+
+SQL> desc pro1;
+PROCEDURE pro1
+ Argument Name                  Type                    In/Out Default?
+ ------------------------------ ----------------------- ------ --------
+ A                              NUMBER                  IN
+ B                              NUMBER                  IN
+ C                              NUMBER                  OUT
+
+
+SQL> desc user_source;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ NAME                                               VARCHAR2(30)
+ TYPE                                               VARCHAR2(12)
+ LINE                                               NUMBER
+ TEXT                                               VARCHAR2(4000)
+
+SQL> select text from user_source
+  2  where name='PRO1';
+
+TEXT
+--------------------------------------------------------------------------------
+procedure pro1(a in number, b in number, c out number)
+    is
+    begin
+    c:=a+b;
+   end;
+
+
+SQL> variable x number
+SQL> execute pro1(10, 20, :x);
+
+PL/SQL procedure successfully completed.
+
+SQL> print x
+
+         X
+----------
+        30
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace procedure pro2(v_empno in emp.empno%type, v_ename out emp.ename%type, v_sal out emp.sal%type)
+  2  is
+  3  begin
+  4  select ename,sal into v_ename,v_sal
+  5  from emp
+  6  where empno=v_empno;
+  7* end;
+SQL> /
+
+Procedure created.
+
+SQL> variable p_name varchar2(10)
+SQL> variable p_sal number
+SQL> desc pro2
+PROCEDURE pro2
+ Argument Name                  Type                    In/Out Default?
+ ------------------------------ ----------------------- ------ --------
+ V_EMPNO                        NUMBER(4)               IN
+ V_ENAME                        VARCHAR2(10)            OUT
+ V_SAL                          NUMBER(7,2)             OUT
+
+SQL> exec pro2(7900,:p_name,:p_sal)
+
+PL/SQL procedure successfully completed.
+
+
+SQL> print p_name p_sal;
+
+P_NAME
+--------------------------------
+JAMES
+
+
+     P_SAL
+----------
+       950
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace procedure format_phone(p_phone_no in out varchar2)is
+  2  begin
+  3  p_phone_no:= '(' || substr(p_phone_no,1,3) ||
+  4               ')' || substr(p_phone_no,4,3) ||
+  5               '-' || substr(p_phone_no,7);
+  6*   end format_phone;
+SQL> /
+
+Procedure created.
+
+SQL> variable b_phone_no varchar2(15)
+SQL> execute :b_phone_no :='8006330575'
+
+PL/SQL procedure successfully completed.
+
+SQL> execute format_phone(:b_phone_no)
+
+PL/SQL procedure successfully completed.
+
+SQL> print b_phone_no
+
+B_PHONE_NO
+--------------------------------
+(800)633-0575
+
