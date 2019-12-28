@@ -1,0 +1,92 @@
+SQL> set serveroutput on
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  e1 exception;
+  3  begin
+  4  delete from dept
+  5  where deptno=&v_deptno;
+  6  if sql%notfound then
+  7  raise e1;
+  8  end if;
+  9  exception
+ 10  when e1 then
+ 11  dbms_output.put_line('no data found');
+ 12* end;
+SQL> /
+Enter value for v_deptno: 20
+old   5: where deptno=&v_deptno;
+new   5: where deptno=20;
+declare
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SCOTT.FK_DEPTNO) violated - child record found
+ORA-06512: at line 4
+
+
+SQL> /
+Enter value for v_deptno: 99
+old   5: where deptno=&v_deptno;
+new   5: where deptno=99;
+no data found
+
+PL/SQL procedure successfully completed.
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  e1 exception;
+  3  begin
+  4  delete from dept
+  5  where deptno=&v_deptno;
+  6  if sql%notfound then
+  7  raise e1;
+  8  end if;
+  9  exception
+ 10  when e1 then
+ 11  dbms_output.put_line('no data found');
+ 12  dbms_output.put_line(sqlerrm);
+ 13* end;
+SQL> /
+Enter value for v_deptno: 9
+old   5: where deptno=&v_deptno;
+new   5: where deptno=9;
+no data found
+User-Defined Exception
+
+PL/SQL procedure successfully completed.
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2      v_name emp.ename%type;
+  3      begin
+  4      select ename into v_name from emp
+  5      where empno=&v_empno;
+  6      exception
+  7      when no_data_found then
+  8      raise_application_error(-20001,'no data found');
+  9      dbms_output.put_line(sqlerrm);
+ 10*    end;
+SQL> /
+Enter value for v_empno: 1
+old   5:     where empno=&v_empno;
+new   5:     where empno=1;
+declare
+*
+ERROR at line 1:
+ORA-20001: no data found
+ORA-06512: at line 8
+
+
+SQL> /
+Enter value for v_empno: 7900
+old   5:     where empno=&v_empno;
+new   5:     where empno=7900;
+
+PL/SQL procedure successfully completed.
