@@ -1,0 +1,90 @@
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace function fun1(a in number, b in number)
+  2  return number
+  3  is
+  4  c number;
+  5  begin
+  6  c:=a+b;
+  7  return(c);
+  8* end;
+SQL> variable z number
+SQL> exec :z:=fun1(10,20);
+
+PL/SQL procedure successfully completed.
+
+SQL> print z;
+
+         Z
+----------
+        30
+
+SQL> select sal,fun1(sal,comm), comm from emp;
+
+       SAL FUN1(SAL,COMM)       COMM
+---------- -------------- ----------
+       800
+      1600           1900        300
+      1250           1750        500
+      2975
+      1250           2650       1400
+      2850
+      2450
+      3000
+      5000
+      1500           1500          0
+      1100
+
+       SAL FUN1(SAL,COMM)       COMM
+---------- -------------- ----------
+       950
+      3000
+      1300
+
+14 rows selected.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1   create or replace package pack1
+  2     is
+  3     procedure p1(a in number,b in number,c out number);
+  4*    end;
+SQL> /
+
+Package created.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1   create or replace package body pack1
+  2      is
+  3      function f1(x in number,y in number)
+  4      return number
+  5      is
+  6      z number;
+  7      begin
+  8      z:=x+y;
+  9      return(z);
+ 10     end;
+ 11     procedure p1(a in number,b in number,c out number)
+ 12     is
+ 13     begin
+ 14     c:=f1(a,b);
+ 15     end;
+ 16*   end;
+SQL> /
+
+Package body created.
+
+SQL> variable p number
+SQL> exec pack1.p1(10,20,:p)
+
+PL/SQL procedure successfully completed.
+
+SQL> print p
+
+         P
+----------
+        30
