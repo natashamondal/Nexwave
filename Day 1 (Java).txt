@@ -1,0 +1,119 @@
+public class HelloWorld {
+	public static void main(String args[])
+	{
+       System.out.println("Hello, world!");
+	}  
+}
+
+O/P: Hello, world!
+
+
+public class Student {
+	int id;
+	String name;
+
+}
+class TestStudent1{
+	public static void main(String args[]) {
+		Student s1=new Student();
+		System.out.println(s1.id);
+		System.out.println(s1.name);
+	}
+}
+
+o/p : 0
+      null
+
+
+
+public class TestStudent2 {
+	public static void main(String args[]){
+		Student s1=new Student();
+		s1.id=101;
+		s1.name="Sonam";
+		System.out.println(s1.id+" "+s1.name);
+	}
+
+}
+
+o/p: 101 Sonam
+
+
+public class TestStudent3 {
+   public static void main(String args[]){
+	   Student s1=new Student();
+	   Student s2=new Student();
+	   s1.id=101;
+	   s1.name="Sonam";
+	   s2.id=102;
+	   s2.name="Amit";
+	   System.out.println(s1.id+" "+s1.name);
+	   System.out.println(s2.id+" "+s2.name);
+   }
+}
+
+o/p: 101 Sonam
+     102 Amit
+
+
+public class Student2 {
+	int rollno;
+	String name;
+	
+	void insertRecord(int r,String n) {
+		rollno=r;
+		name=n;
+	}
+	
+void displayInformation(){System.out.println(rollno+" "+name);
+}
+
+}
+public class TestStudent4 {
+	public static void main(String args[]) {
+		Student2 s1=new Student2();
+		Student2 s2=new Student2();
+		s1.insertRecord(111,"Karan");
+		s2.insertRecord(222,"Aryan");
+		s1.displayInformation();
+		s2.displayInformation();
+	}
+
+}
+
+o/p: 111 Karan
+     222 Aryan
+
+
+import java.util.Scanner;
+public class Calculation {
+ int a,b;
+ Calculation(int x, int y){
+	 a=x;
+	 b=y;
+ }
+ int sum()
+ {
+	 return(a+b);
+ }
+ int div()
+ {
+	 return(a/b);
+ }
+}
+class TestCalc {
+	public static void main(String args[]) {
+		Scanner sg=new Scanner(System.in);
+		int num1, num2;
+		num1=sg.nextInt();
+		num2=sg.nextInt();
+		Calculation ob1=new Calculation(num1,num2);
+		System.out.println("Sum="+ob1.sum()+"\nDivision="+ob1.div());
+	}
+}
+
+o/p: 6
+3
+Sum=9
+Division=2
+
