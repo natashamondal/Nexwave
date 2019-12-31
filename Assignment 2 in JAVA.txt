@@ -1,0 +1,149 @@
+Question 1. Create a class called account with the data members(Accno-integer, name-string, phone_no-integer,balance_amt-float) and following methods:
+            a) getinput() to get input from the user
+            b) Deposit() method which takes the amount to be deposited in to his/her account and do the calculation.
+            c) Withdraw() method which gets the amount to be withdrawn from to his/her account and do the calculation.
+            Print the appropriate results.
+
+import java.util.Scanner;
+public class Account {
+  int acc_no;
+  String name;
+  long phone_no;
+  float balance_amt;
+  int amt1;
+  int amt2;
+
+void getinput() {
+	System.out.println("Enter Name, Account no, Phone no, Balance:");
+	Scanner sc= new Scanner(System.in);
+	name=sc.next();
+	acc_no=sc.nextInt();
+	phone_no=sc.nextLong();
+	balance_amt=sc.nextInt();
+	System.out.println("Account no: "+acc_no+" Name: "+name+" Phone No: "+phone_no+" Balance: "+balance_amt);
+		
+}
+void deposit() {
+	System.out.println("Enter the amount to deposit: ");
+	Scanner sc= new Scanner(System.in);
+	amt1=sc.nextInt();
+	balance_amt=balance_amt+amt1;
+	System.out.println("Money deposited successfully. Your available balance is "+balance_amt);
+	
+}
+void withdraw() {
+	System.out.println("Enter the amount to withdraw: ");
+	Scanner sc= new Scanner(System.in);
+	amt2=sc.nextInt();
+	balance_amt=balance_amt-amt2;
+	System.out.println("Money withdrawn successfully. Your available balance is "+balance_amt);
+}
+public static void main(String args[]) {
+	Account A=new Account();
+	A.getinput();
+	A.deposit();
+	A.withdraw();
+}
+}
+
+
+Output:
+Enter Name, Account no, Phone no, Balance:
+John 101 1239123471 500
+Account no: 101 Name: John Phone No: 1239123471 Balance: 500.0
+Enter the amount to deposit: 
+500
+Money deposited successfully. Your available balance is 1000.0
+Enter the amount to withdraw: 
+1000
+Money withdrawn successfully. Your available balance is 0.0
+
+
+
+Question 2.a) Create a class to hold information about books. Write a function to display information about the book.
+             Data members : Title, Author, Cost, no_of_books
+           b) Create 3 instances of the above class and initialize the members of the class with the data accepted from the user.
+           c) Accept a title and the no_of_books required from the user. Find whether the book exists. If exists, check if the no_of_books are sufficient and if so indicate the total cost of the books.
+
+import java.util.Scanner;
+
+class Book {
+	String title;
+	String author;
+	double cost;
+	int no_of_books;
+
+	public Book(String title, String author, double cost, int no_of_books) {
+		this.title = title;
+		this.author = author;
+		this.cost = cost;
+		this.no_of_books = no_of_books;
+	}
+
+	void display() {
+		System.out.println("Title: " + title + ", Author: " + author);
+		System.out.println("Cost: " + cost);
+	}
+}
+
+public class Books {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter data for books.");
+		Book x[] = new Book[3];
+		
+		for (int i = 0; i < 3; i++) {
+			System.out.print("Enter title: ");
+			String title = sc.next();
+			System.out.print("Enter author: ");
+			String author = sc.next();
+			System.out.print("Enter cost: ");
+			double cost = sc.nextDouble();
+			System.out.print("Enter no of books: ");
+			int no_of_books = sc.nextInt();
+			x[i] = new Book(title, author, cost, no_of_books);
+		}
+
+		System.out.print("\nEnter title to search: ");
+		String title = sc.next();
+		System.out.print("Enter no of books required: ");
+		int no_of_books = sc.nextInt();
+
+		boolean found = false;
+		for (int i = 0; i < 3; i++) {
+			if (title.equals(x[i].title) && (no_of_books <= x[i].no_of_books)) {
+				found = true;
+				x[i].display();
+				System.out.println("Books are sufficient.");
+				System.out.println("Total cost of books: " + (x[i].cost * no_of_books));
+			}
+		}
+
+		if (found == false) {
+			System.out.println("No books found.");
+		}
+	}
+}
+
+Output:
+
+Enter data for books.
+Enter title: Hello
+Enter author:  World
+Enter cost:  10
+Enter no of books:  5
+Enter title: Hi
+Enter author:  Jane
+Enter cost:  50
+Enter no of books: 2
+Enter title:  Nobody
+Enter author:  John
+Enter cost:  100
+Enter no of books:  5
+
+Enter title to search: Nobody
+Enter no of books required:  3
+Title: Nobody, Author: John
+Cost: 100.0
+Books are sufficient.
+Total cost of books: 300.0
