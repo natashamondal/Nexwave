@@ -1,0 +1,64 @@
+SQL> create table first(empno number, name varchar2(10), sal number);
+
+Table created.
+
+SQL> desc first;
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ EMPNO                                                                      NUMBER
+ NAME                                                                       VARCHAR2(10)
+ SAL                                                                        NUMBER
+
+
+In Notepad
+1,John,50000
+2,Mike,40000
+3,Scott,30000
+
+Save as first.dat 
+
+In Notepad
+loaddata infile 'first.dat'
+into table first fields terminated by ','
+(empno, name, sal);
+
+Save as first.crtl
+
+In Command Prompt
+Microsoft Windows [Version 10.0.16299.64]
+(c) 2017 Microsoft Corporation. All rights reserved.
+
+C:\Users\lab365>cd desktop
+
+C:\Users\lab365\Desktop>sqlldr scott/tiger control=first.crtl
+
+SQL*Loader: Release 11.2.0.1.0 - Production on Wed Jan 1 22:58:33 2020
+
+Copyright (c) 1982, 2009, Oracle and/or its affiliates.  All rights reserved.
+
+SQL*Loader-350: Syntax error at line 3.
+Illegal combination of non-alphanumeric characters
+(empno, name, sal);
+                  ^
+
+C:\Users\lab365\Desktop>sqlldr scott/tiger control=first.crtl
+
+SQL*Loader: Release 11.2.0.1.0 - Production on Wed Jan 1 22:58:46 2020
+
+Copyright (c) 1982, 2009, Oracle and/or its affiliates.  All rights reserved.
+
+Commit point reached - logical record count 2
+Commit point reached - logical record count 3
+
+C:\Users\lab365\Desktop>
+
+In SQLPLUS
+SQL> select * from first;
+
+     EMPNO NAME              SAL
+---------- ---------- ----------
+         1 John            50000
+         2 Mike            40000
+         3 Scott           30000
+
+
