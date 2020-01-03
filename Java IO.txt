@@ -1,0 +1,164 @@
+import java.io.*;
+public class IO {
+	public static void main(String args[]) {
+	System.out.println("Hello");  
+	System.err.println("Error");
+}
+}
+
+Output:
+Hello
+Error
+
+
+
+import java.io.FileOutputStream;  
+
+public class FileOutputStreamExample {
+	public static void main(String args[]) {
+		try {
+			FileOutputStream fout=new FileOutputStream("C:\\Users\\lab365\\Desktop\\test.txt");
+			fout.write(65);
+			fout.close();
+			System.out.println("Success");
+		
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+}
+
+
+
+Output:
+Success
+ 
+In Notepad : A
+
+
+
+import java.io.FileOutputStream;  
+
+public class FileOutputStreamExample2 {
+	public static void main(String args[]) {
+		try {
+			FileOutputStream fout=new FileOutputStream("C:\\Users\\lab365\\Desktop\\test.txt");
+			
+			String s= "Hello, World!";
+			byte b[]=s.getBytes();
+			
+			fout.write(b);
+			fout.close();
+			System.out.println("Success");
+		
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+}
+
+
+Output:
+Success
+ 
+In Notepad : Hello, World!
+
+
+import java.io.*;
+
+public class FileInputStreamEx {
+	public static void main(String args[]) {
+		try {
+			FileInputStream fin =new FileInputStream("C:\\Users\\lab365\\Desktop\\test.txt");
+			
+			int i= fin.read();
+			
+			System.out.println((char) i);
+			fin.close();
+		
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+}
+
+
+import java.io.*;
+
+public class FileInputExample {
+	public static void main(String args[]) {
+		try {
+			FileInputStream fin = new FileInputStream("C:\\Users\\lab365\\Desktop\\test.txt");
+			
+			int i=0;
+			while((i=fin.read())!=-1) {
+				System.out.print((char) i);
+			}
+			fin.close();
+
+		} catch (Exception e) {
+          e.printStackTrace();
+		}
+	}
+}
+
+Output in Notepad : This is JAVA
+
+
+import java.io.Serializable;
+
+public class Student implements Serializable{
+   int rollno;
+   
+   public Student(int r) {
+	   rollno=r;
+   }
+}
+
+import java.io.*;
+public class SerializationExample {
+  public static void main(String args[]) {
+	  try {
+		  Student s=new Student(111);
+		  FileOutputStream fout= new FileOutputStream("C:\\Users\\lab365\\Desktop\\test.txt");
+		  ObjectOutputStream out= new ObjectOutputStream(fout);
+		  out.writeObject(s);
+		  out.close();
+		  System.out.println("Success");
+	  } catch (Exception e) {
+		  e.printStackTrace();
+	  }
+  }
+}
+
+Output:
+¬í sr Studenthä€£ÔÚñ I rollnoxp   o
+
+import java.io.*;
+
+public class DeserializationExample {
+  public static void main(String args[]) {
+	  try {
+		  FileInputStream fis= new FileInputStream("C:\\Users\\lab365\\Desktop\\test.txt");
+		  ObjectInputStream ois= new ObjectInputStream(fis);
+		  
+		  Student s=(Student) ois.readObject();
+		  System.out.println("Roll no : "+s.rollno);
+		  
+		  ois.close();
+	  }catch (Exception e) {
+		  e.printStackTrace();
+	  }
+  }
+}
+
+
+Output:
+Roll no : 111
+
+
+
+
+ 
