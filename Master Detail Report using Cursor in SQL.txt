@@ -1,0 +1,53 @@
+SQL> ed
+Wrote file afiedt.buf
+
+  1  declare
+  2  cursor c1 is select * from dept;
+  3  cursor c2 (pdno number) is select * from emp where deptno=pdno;
+  4  begin
+  5  for vdep in c1
+  6  loop
+  7  dbms_output.put_line('---------------------');
+  8  dbms_output.put_line(vdep.deptno||' '||vdep.dname);
+  9  dbms_output.put_line('---------------------');
+ 10  for erec in c2(vdep.deptno)
+ 11  loop
+ 12  dbms_output.put_line(erec.empno||' '||erec.ename||' '||erec.deptno);
+ 13  end loop;
+ 14  end loop;
+ 15* end;
+SQL> /
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on
+SQL> /
+---------------------
+10 ACCOUNTING
+---------------------
+7782 CLARK 10
+7839 KING 10
+7934 MILLER 10
+---------------------
+20 RESEARCH
+---------------------
+7369 SMITH 20
+7566 JONES 20
+7788 SCOTT 20
+7876 ADAMS 20
+7902 FORD 20
+---------------------
+30 SALES
+---------------------
+111 MAN 30
+7499 ALLEN 30
+7521 WARD 30
+7654 MARTIN 30
+7698 BLAKE 30
+7844 TURNER 30
+7900 JAMES 30
+---------------------
+40 OPERATIONS
+---------------------
+
+PL/SQL procedure successfully completed.
