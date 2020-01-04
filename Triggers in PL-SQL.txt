@@ -1,0 +1,261 @@
+SQL> select * from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800
+        20
+
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300
+        30
+
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400
+        30
+
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450
+        10
+
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000
+        20
+
+      7839 KING       PRESIDENT            17-NOV-81       5000
+        10
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0
+        30
+
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100
+        20
+
+      7900 JAMES      CLERK           7698 03-DEC-81        950
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7902 FORD       ANALYST         7566 03-DEC-81       3000
+        20
+
+      7934 MILLER     CLERK           7782 23-JAN-82       1300
+        10
+
+
+14 rows selected.
+
+SQL> set linesize 120
+SQL> set pagesize 120
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+14 rows selected.
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace trigger secure_emp
+  2  before insert on emp
+  3    begin
+  4      if(to_char(sysdate, 'DY') in ('SAT','SUN')) or
+  5        (to_char(sysdate, 'HH24:MI')
+  6          not between '08:00' and '18:00') then
+  7      raise_application_error(-20500, 'You may insert' || 'into emp table only during' || 'normal business hours.');
+  8      end if;
+  9* end;
+SQL> /
+
+Trigger created.
+
+SQL> insert into emp values(1, 'SAM', 'SALES', 1111, SYSDATE ,1500 ,0 , 20);
+insert into emp values(1, 'SAM', 'SALES', 1111, SYSDATE ,1500 ,0 , 20)
+            *
+ERROR at line 1:
+ORA-20500: You may insertinto emp table only duringnormal business hours.
+ORA-06512: at "SCOTT.SECURE_EMP", line 5
+ORA-04088: error during execution of trigger 'SCOTT.SECURE_EMP'
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace trigger restrict_salary
+  2      before insert or update of sal on emp
+  3      for each row
+  4      begin
+  5       if not(:new.job in ('ANALYST', 'PRESIDENT'))
+  6          and :new.sal > 5000 then
+  7        raise_application_error (-20202,'Employee can not earn more than $15000.');
+  8       end if;
+  9*    end;
+SQL> /
+
+Trigger created.
+
+SQL> update emp set sal=6000 where ename='WARD';
+update emp set sal=6000 where ename='WARD'
+       *
+ERROR at line 1:
+ORA-20202: Employee can not earn more than $15000.
+ORA-06512: at "SCOTT.RESTRICT_SALARY", line 4
+ORA-04088: error during execution of trigger 'SCOTT.RESTRICT_SALARY'
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table audit_emp(
+  2  user_name varchar2(30),
+  3  time_stamp date,
+  4  id number(10),
+  5  old_last_name varchar2(30),
+  6  new_last_name varchar2(30),
+  7  old_title varchar2(30),
+  8  new_title varchar2(30),
+  9  old_salary number(8,2),
+ 10  new_salary number(8,2)
+ 11* )
+SQL> /
+
+Table created.
+
+SQL> desc audit_emp;
+ Name                                                              Null?    Type
+ ----------------------------------------------------------------- -------- --------------------------------------------
+ USER_NAME                                                                  VARCHAR2(30)
+ TIME_STAMP                                                                 DATE
+ ID                                                                         NUMBER(10)
+ OLD_LAST_NAME                                                              VARCHAR2(30)
+ NEW_LAST_NAME                                                              VARCHAR2(30)
+ OLD_TITLE                                                                  VARCHAR2(30)
+ NEW_TITLE                                                                  VARCHAR2(30)
+ OLD_SALARY                                                                 NUMBER(8,2)
+ NEW_SALARY                                                                 NUMBER(8,2)
+
+SQL> select * from audit_emp;
+
+no rows selected
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create or replace trigger audit_emp_values
+  2  after delete or insert or update on emp
+  3  for each row
+  4  begin
+  5    insert into audit_emp(user_name, time_stamp, id, old_last_name, new_last_name, old_title, new_title, old_salary, new_salary)
+  6    values (user, sysdate, :old.empno, :old.ename, :new.ename, :old.job, :new.job, :old.sal, :new.sal );
+  7* end;
+SQL> /
+
+Trigger created.
+
+SQL> insert into emp values(111, 'MAN', 'CLERK', 7000, sysdate, 1000,200, 30);
+insert into emp values(111, 'MAN', 'CLERK', 7000, sysdate, 1000,200, 30)
+            *
+ERROR at line 1:
+ORA-20500: You may insertinto emp table only duringnormal business hours.
+ORA-06512: at "SCOTT.SECURE_EMP", line 5
+ORA-04088: error during execution of trigger 'SCOTT.SECURE_EMP'
+
+SQL> drop trigger secure_emp;
+
+Trigger dropped.
+
+SQL> insert into emp values(111, 'MAN', 'CLERK', 7000, sysdate, 1000,200, 30);
+
+1 row created.
+
+SQL> select * from audit_emp;
+
+USER_NAME                      TIME_STAM         ID OLD_LAST_NAME                  NEW_LAST_NAME
+------------------------------ --------- ---------- ------------------------------ ------------------------------
+OLD_TITLE                      NEW_TITLE                      OLD_SALARY NEW_SALARY
+------------------------------ ------------------------------ ---------- ----------
+SCOTT                          03-JAN-20                                           MAN
+                               CLERK                                           1000
+
+SQL> create table log_trig_tab(user_id varchar2(10), log_date date, log_date_action varchar2(10));
+
+Table created.
+
+SQL> create or replace trigger logon_trig
+  2  after logon on schema
+  3  begin
+  4  insert into log_trig_tab(user_id, log_date, log_date_action)
+  5  values(user, sysdate, 'Logging on');
+  6  end;
+  7  /
+
+Trigger created.
+
+SQL> create or replace trigger logoff_trig
+  2  before logoff on schema
+  3  begin
+  4  insert into log_trig_tab(user_id, log_date, log_date_action)
+  5  values(user, sysdate, 'Logging off');
+  6  end;
+  7  /
+
+Trigger created.
+
+
+
+
+SQL> desc log_trig_tab;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ USER_ID                                            VARCHAR2(10)
+ LOG_DATE                                           DATE
+ LOG_DATE_ACTION                                    VARCHAR2(10)
+
+
+
+SQL> select * from log_trig_tab;
+
+USER_ID    LOG_DATE  ACTION
+---------- --------- ----------
+SCOTT      03-JAN-20 Logging on
+SCOTT      03-JAN-20 Logging off
