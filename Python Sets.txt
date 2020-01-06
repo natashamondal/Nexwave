@@ -1,0 +1,51 @@
+#unordered
+#no index
+#no key
+#mutable
+#hold only immutable objects
+#unique values
+
+S={10,10,20,'py'}
+print(S)
+
+Output: {10, 20, 'py'}
+
+#add
+S.add(30)
+S.add(30)
+print('add=',S)
+
+Output: add= {10, 'py', 20, 30}
+
+#remove
+r1=S.remove(10)
+print('remove=',r1,S)
+
+r2=S.pop()
+print('pop=',r2,S)
+
+Output: 
+remove= None {20, 'py', 30}
+pop= 20 {'py', 30}
+
+#set operations
+S1={10,20,30,40}
+S2={30,40,50,60}
+S3=S1.union(S2)
+print('union=',S3)
+
+S4=S1.intersection(S2)
+print('intersection=',S4)
+
+S5=S1.difference(S2)
+S6=S1-S2
+print(S5,S6,sep='\n')
+
+Output:
+union= {40, 10, 50, 20, 60, 30}
+intersection= {40, 30}
+{10, 20}
+{10, 20}
+
+
+

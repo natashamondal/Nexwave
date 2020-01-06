@@ -1,0 +1,43 @@
+#dict -> class
+D={'course':'python','dur':10,'loc':'Blr'}
+print(D['course'])
+
+Output: python
+
+#add or update
+D['course']=['c++','Java']
+print(D['course'])
+E=D.copy()
+
+Output: ['c++', 'Java']
+
+#remove
+r1=D.pop('course')
+print('pop=',r1,D)
+
+Output: pop= ['c++', 'Java'] {'dur': 10, 'loc': 'Blr'}
+
+del D['dur']
+print('After del=',D)
+
+Output: After del= {'loc': 'Blr'}
+
+r2=D.popitem()
+print('r2=',r2,D)
+
+Output: r2= ('loc', 'Blr') {}
+
+#other methods
+K=E.keys()
+V=E.values()
+i=E.items()
+print(K,V,i,sep='\n')
+
+Output:
+dict_keys(['course', 'dur', 'loc'])
+dict_values([['c++', 'Java'], 10, 'Blr'])
+dict_items([('course', ['c++', 'Java']), ('dur', 10), ('loc', 'Blr')])
+
+
+
+

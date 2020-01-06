@@ -1,0 +1,298 @@
+#core datatypes
+#numbers
+#strings
+'''
+ LIST
+ TUPLE
+'''
+"""
+ Dictionary
+ Set
+"""
+
+#Numbers
+a=10
+b=12.5
+c=0x12
+d=0b1010
+e=0o12
+print('Hello')
+print('a')
+print('RESULT=',a,b,c,d,e)
+
+>>> 
+=================== RESTART: C:\Python Training\bin\num_ex.py ==================
+Hello
+a
+RESULT= 10 12.5 18 10 10
+
+
+
+#core datatypes
+#numbers
+#strings
+'''
+ LIST
+ TUPLE
+'''
+"""
+ Dictionary
+ Set
+"""
+
+#Numbers
+a=10
+b=12.5
+c=0x12
+d=0b1010
+e=0o12
+print('Hello')
+print('a')
+print('RESULT=',a,b,c,d,e,sep='|')
+
+>>> 
+=================== RESTART: C:\Python Training\bin\num_ex.py ==================
+Hello
+a
+RESULT=|10|12.5|18|10|10
+
+
+
+#core datatypes
+#numbers
+#strings
+'''
+ LIST
+ TUPLE
+'''
+"""
+ Dictionary
+ Set
+"""
+
+#Numbers
+a=10 #int
+b=12.5 #float
+c=0x12 #hex
+d=0b1010 #bin
+e=0o12 #oct
+print('Hello')
+print('a')
+print('RESULT=',a,b,c,d,e,sep='|',end='.')
+print('Test')
+
+>>> 
+=================== RESTART: C:\Python Training\bin\num_ex.py ==================
+Hello
+a
+RESULT=|10|12.5|18|10|10.Test
+
+
+
+#core datatypes
+#numbers
+#strings
+'''
+ LIST
+ TUPLE
+'''
+"""
+ Dictionary
+ Set
+"""
+
+#Numbers
+a=10 #int
+b=12.5 #float
+c=0x12 #hex
+d=0b1010 #bin
+e=0o12 #oct
+print('Hello')
+print('a')
+print('RESULT=',a,b,c,d,e,sep='|',end='.')
+print('Test')#file=, flush=
+f=int(20)
+print(f)
+
+>>> 
+=================== RESTART: C:\Python Training\bin\num_ex.py ==================
+Hello
+a
+RESULT=|10|12.5|18|10|10.Test
+20
+
+
+
+#core datatypes
+#numbers
+#strings
+'''
+ LIST
+ TUPLE
+'''
+"""
+ Dictionary
+ Set
+"""
+
+#Numbers
+a=10 #int
+b=12.5 #float
+c=0x12 #hex
+d=0b1010 #bin
+e=0o12 #oct
+print('Hello')
+print('a')
+print('RESULT=',a,b,c,d,e,sep='|',end='.')
+print('Test')#file=, flush=
+f=int(20)
+print(f)
+print(a)
+print(id(a))
+
+>>> 
+=================== RESTART: C:\Python Training\bin\num_ex.py ==================
+Hello
+a
+RESULT=|10|12.5|18|10|10.Test
+20
+10
+140733058107328
+
+
+#core datatypes
+#numbers
+#strings
+'''
+ LIST
+ TUPLE
+'''
+"""
+ Dictionary
+ Set
+"""
+
+#Numbers
+a=10 #int
+b=12.5 #float
+c=0x12 #hex
+d=0b1010 #bin
+e=0o12 #oct
+print('Hello')
+print('a')
+print('RESULT=',a,b,c,d,e,sep='|',end='.')
+print('Test')#file=, flush=
+f=int(20)
+print(f)
+print(a)
+print(id(a))
+print(type(a))
+
+>>> 
+=================== RESTART: C:\Python Training\bin\num_ex.py ==================
+Hello
+a
+RESULT=|10|12.5|18|10|10.Test
+20
+10
+140733058107328
+<class 'int'>
+
+
+
+#core datatypes
+#numbers
+#strings
+'''
+ LIST
+ TUPLE
+'''
+"""
+ Dictionary
+ Set
+"""
+
+#Numbers
+a=10 #int
+b=12.5 #float
+c=0x12 #hex
+d=0b1010 #bin
+e=0o12 #oct
+print('Hello')
+print('a')
+print('RESULT=',a,b,c,d,e,sep='|',end='.')
+print('Test')#file=, flush=
+f=int(20)
+print(f)
+print(a)
+print(id(a))
+print(type(a))
+print(type(a).__name__)
+
+>>> 
+=================== RESTART: C:\Python Training\bin\num_ex.py ==================
+Hello
+a
+RESULT=|10|12.5|18|10|10.Test
+20
+10
+140733058107328
+<class 'int'>
+int
+
+
+#numbers
+#strings
+'''
+ LIST
+ TUPLE
+'''
+"""
+ Dictionary
+ Set
+"""
+
+#Numbers
+a=10 #int
+b=12.5 #float
+c=0x12 #hex
+d=0b1010 #bin
+e=0o12 #oct
+print('Hello')
+print('a')
+print('RESULT=',a,b,c,d,e,sep='|',end='.')
+print('Test')#file=, flush=
+f=int(20)
+print(f)
+
+print(a)
+print(id(a))
+
+print(type(a))
+print(type(a).__name__)
+
+a=100
+print(id(a))
+
+b=a #reference copy
+print(b)
+
+a=200
+print(a)
+
+#sys.getreferencecount
+
+>>> 
+=================== RESTART: C:\Python Training\bin\num_ex.py ==================
+Hello
+a
+RESULT=|10|12.5|18|10|10.Test
+20
+10
+140733058107328
+<class 'int'>
+int
+140733058110208
+100
+200
+

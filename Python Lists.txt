@@ -1,0 +1,164 @@
+#list -> class
+L1=list([10,20,30])
+L2=[10,12.5,'python',['a','b']]
+print(L2)
+print(L2[1])
+print(L2[2][1])
+print(L2[-1:1:-1])
+
+Output:
+>>> 
+================== RESTART: C:/Python Training/bin/list_ex.py ==================
+[10, 12.5, 'python', ['a', 'b']]
+12.5
+y
+[['a', 'b'], 'python']
+
+
+#add
+L2.append(200)
+print('append=',L2)
+
+Output:append= [10, 12.5, 'python', ['a', 'b'], 200]
+
+L2.insert(2,300)
+print('Insert=',L2)
+
+Output: Insert= [10, 12.5, 300, 'python', ['a', 'b'], 200]
+
+
+L3=[10,20]
+L4=['a','b']
+L5=L3+L4
+L6=L3*10
+print(L5,L6,sep='\n')
+
+Output:
+[10, 20, 'a', 'b']
+[10, 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 20]
+
+L3.extend(L4)
+print('Extend=',L3)
+
+Output: Extend= [10, 20, 'a', 'b']
+
+
+#remove
+r1=L5.pop()
+print('r1=',r1,L5)
+
+Output: r1= b [10, 20, 'a']
+
+r2=L5.pop(2)
+print('r2=', r2,L5)
+
+Output: r2= a [10, 20]
+
+r3=L5.remove(20)
+print('remove=',r3,L5)
+
+Output: remove= None [10]
+
+del L5[0]
+print('After del=',L5)
+
+Output: After del= []
+
+
+#update
+print('L3=',L3)
+L3[1]='Java'
+print('After Update=',L3)
+
+Output:
+L3= [10, 20, 'a', 'b']
+After Update= [10, 'Java', 'a', 'b']
+
+
+#some other methods
+L6=[10,30,20]
+L6.sort() #ascending order
+print('Sort in ascending=', L6)
+L7=['z','a','b']
+L7.sort(reverse=True) #descending
+print('Sort in Descending=', L7)
+L8=[10,'a',20,'b']
+L8.reverse()
+print('Reverse=',L8)
+
+Output:
+Sort in ascending= [10, 20, 30]
+Sort in Descending= ['z', 'b', 'a']
+Reverse= ['b', 20, 'a', 10]
+
+
+L8.clear()
+print('L8=', L8)
+
+Output: L8= []
+
+
+#copy
+L=[10,['a','b']]
+M=L #reference copy
+N=L.copy() #shallow copy
+
+#copy module -> copy(),deepcopy()
+import copy
+P=copy.deepcopy(L)
+print(id(L[0]), id(P[0]))
+print(id(L[1]), id(P[1]))
+
+cp=copy.deepcopy
+q=cp(L)
+
+
+Output:
+140733058107328 140733058107328
+1533217713664 1533217723584
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
