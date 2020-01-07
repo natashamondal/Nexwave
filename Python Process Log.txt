@@ -1,0 +1,65 @@
+F1=open('log_report.txt','w')
+F2=open('log_report.csv','w')
+
+F1.write('IP\t\t\t\tDATE\t\t\tPICS\t\t\t\tURL\n')
+F2.writelines(['IP, ','DATE, ''PICS, ','URL\n'])
+
+F3=open(r'C:\Python Training\log\Server Log.txt')
+for line in F3:
+    if line[:3].isdigit():
+        #print(line)
+        sp=line.split()
+        #print(sp)
+        ip=sp[0]
+        #print(ip)
+
+        dt=sp[3]
+        dt1=dt[1:12]
+        dt2=dt[1:dt.index(':')]
+        #print(ip, dt2)
+
+        if 'pics' in sp[6]: #OR if sp[6].startswith('/pics')
+            im=sp[6] #'/pics/abc.jpg'
+            im1=im[6:] #first way
+            #print(im1)
+            im2=im.split('/') #second way ['/','pics','abc.jpg']
+            #print(im2[-1])
+            im3=im.lstrip('/pics/') #third way
+            #print(im3)
+            im4=im.replace('/pics/','') #fourth way
+            #print(im4)
+        else:
+            im1='No Image'
+        #print(ip, dt2, im1)
+
+        url=sp[10][1:-1]
+        #print(url)
+
+        print(ip,dt2,im1,url,sep='\t',file=F1)
+        print(ip, dt2, im1, url, sep=',', file=F2)
+
+F1.close()
+F2.close()
+F3.close()
+
+
+O/P:
+In file F1, log_report.txt,
+
+IP				DATE			PICS				URL
+123.123.123.123	26/Apr/2000	wpaper.gif	http://www.jafsoft.com/asctortf/
+123.123.123.123	26/Apr/2000	No Image	http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+123.123.123.123	26/Apr/2000	5star2000.gif	http://www.jafsoft.com/asctortf/
+123.123.123.123	26/Apr/2000	5star.gif	http://www.jafsoft.com/asctortf/
+123.123.123.123	26/Apr/2000	a2hlogo.jpg	http://www.jafsoft.com/asctortf/
+123.123.123.123	26/Apr/2000	No Image	http://www.jafsoft.com/asctortf/
+
+In file F2, log_report.csv,
+
+IP, DATE, PICS, URL
+123.123.123.123,26/Apr/2000,wpaper.gif,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+123.123.123.123,26/Apr/2000,5star2000.gif,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,5star.gif,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,a2hlogo.jpg,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
