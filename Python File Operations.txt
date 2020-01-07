@@ -1,0 +1,133 @@
+F1 = open('out1.txt', 'w')
+x = 10
+s = 'python\n'
+x = str(x) + '\n'
+F1.write(x)
+F1.write(s)
+F1.flush()  # transfers the data without closing the connection
+
+# 2nd way to write
+L = [x, s]
+F1.writelines(L)
+F1.close()
+
+F2 = open('out1.txt', 'r')
+r1 = F2.read()
+print('r1=', r1)
+
+r2 = F2.read()
+print('r2=', r2)
+
+F2 = open('out1.txt', 'r')
+r1 = F2.read()
+print('r1=', r1)
+F2.seek(0)  # to start reading from the beginning
+r2 = F2.read()
+print('r2=', r2)
+
+F2.seek(0)
+r3 = F2.readline()
+print('r3 =', r3)
+while True:
+    line = F2.readline()
+    if line == '':  # EOF
+        break
+    else:
+        print('line =', line)
+
+F2.seek(0)
+r4 = F2.readlines()
+print('r4=', r4)
+
+r5 = []
+for L in r4:
+    L = L.strip()
+    r5.append(L)
+print('r5 =', r5)
+
+F2.seek(0)
+for x in F2:
+    print('line =', x)
+
+F2.seek(0)
+r6 = list(F2)
+
+F2.seek(0)
+r7 = tuple(F2)
+print(r6, r7, sep='\n')
+
+L1 = ['h1', 'h2']
+L2 = ['ip1', 'ip2']
+D1 = dict(zip(L1, L2))
+print('D1=', D1)
+
+e = enumerate(L1)
+print(list(e))
+
+F2.seek(0)
+D2 = dict(enumerate(F2))
+print('D2=', D2)
+F2.close()
+
+F3 = open('out1.txt', 'a')
+F4 = open('out2.csv', 'a')
+print(20, 'java', sep='\n', file=F3, flush=True)
+print(20, 'java', sep=',', file=F4)
+F3.close()
+F4.close()
+
+# 'w' -> Write only
+# 'r' -> Read only
+# 'a' -> Append only
+# 'w+' -> WR
+# 'r+' -> RW
+# 'a+' -> AR
+
+# 'wb' -> Write only
+# 'rb' -> Read only
+# 'ab' -> Append only
+# 'w+b' -> WR
+# 'r+b' -> RW
+# 'a+b' -> AR
+
+
+r1= 10
+python
+10
+python
+
+r2= 
+r1= 10
+python
+10
+python
+
+r2= 10
+python
+10
+python
+
+r3 = 10
+
+line = python
+
+line = 10
+
+line = python
+
+r4= ['10\n', 'python\n', '10\n', 'python\n']
+r5 = ['10', 'python', '10', 'python']
+line = 10
+
+line = python
+
+line = 10
+
+line = python
+
+['10\n', 'python\n', '10\n', 'python\n']
+('10\n', 'python\n', '10\n', 'python\n')
+D1= {'h1': 'ip1', 'h2': 'ip2'}
+[(0, 'h1'), (1, 'h2')]
+D2= {0: '10\n', 1: 'python\n', 2: '10\n', 3: 'python\n'}
+

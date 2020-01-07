@@ -1,0 +1,217 @@
+s = 'python'
+for a in s:
+    print('a=',a)
+    
+
+Output:
+a= p
+a= y
+a= t
+a= h
+a= o
+a= n
+
+
+b = 'java'
+L = [10, 20, 30]
+for b in L:
+    print('b=', b)
+print('Now a and b =', a, b)
+
+Output:
+b= 10
+b= 20
+b= 30
+Now a and b = n 30
+
+
+D = {'A': 10, 'B': 20}
+for K in D:
+    print('K=', K)
+line = '-'*40
+print(line)
+for K in D.keys():
+    print('Key=', K, 'Value=', D[K])
+print(line)
+for V in D.values():
+    print('V=', V)
+print(line)
+for i in D.items(): #[('A',10)'('B',20)]
+    print('i=', i, i[0], i[1])
+print(line)
+
+#i=('A',10)
+for i, j in D.items():
+    print(i, j)
+print(line)
+
+Output:
+K= A
+K= B
+----------------------------------------
+Key= A Value= 10
+Key= B Value= 20
+----------------------------------------
+V= 10
+V= 20
+----------------------------------------
+i= ('A', 10) A 10
+i= ('B', 20) B 20
+----------------------------------------
+A 10
+B 20
+----------------------------------------
+
+
+hosts = ['h1', 'h2', 'h3']
+ips = ['ip1', 'ip2']
+z = zip(hosts, ips)
+print(z)
+print(list(z))
+
+for h, p in zip(hosts, ips):
+    print(h, p)
+print(line)
+
+Output:
+<zip object at 0x000002602EF4D900>
+[('h1', 'ip1'), ('h2', 'ip2')]
+h1 ip1
+h2 ip2
+----------------------------------------
+
+
+r1 = range(10)
+r2 = range(1,10)
+r3 = range(1,10,2)
+r4 = range(10, 1, -1)
+print(list(r1), list(r2), list(r3), list(r4), sep='\n')
+print(line)
+
+for i in range(2, 10, 2):
+    print('i=', i)
+
+Output:
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+[1, 3, 5, 7, 9]
+[10, 9, 8, 7, 6, 5, 4, 3, 2]
+----------------------------------------
+i= 2
+i= 4
+i= 6
+i= 8
+
+
+for h in range(0, len(hosts)):
+    print(hosts[h])
+print(line)
+
+for h in range(0, len(hosts), 2):
+    print(hosts[h])
+print(line)
+
+for h in hosts[ : :2]:
+    print('h=', h)
+print(line)
+
+Output:
+h1
+h2
+h3
+----------------------------------------
+h1
+h3
+----------------------------------------
+h= h1
+h= h3
+----------------------------------------
+
+
+comp = ['IBM', 'DEL1', 'SAP', 'DEL2']
+for c in comp:
+    if c.startswith('DEL'):
+        print('FOUND!')
+print(line)
+
+comp = ['IBM', 'DEL1', 'SAP', 'DEL2']
+for c in comp:
+    if c.startswith('DEL'):
+        print('FOUND!')
+        break #to stop unnecessary iteration of for loop
+print(line)
+
+comp = ['IBM', 'DEL1', 'SAP', 'DEL2']
+F = 0
+for c in comp:
+    if c.startswith('DEL3'):
+        print('FOUND!')
+        F = 1
+        break
+if F == 0:
+    print('NOT FOUND!')
+print(line)
+
+Output:
+FOUND!
+FOUND!
+----------------------------------------
+FOUND!
+----------------------------------------
+NOT FOUND!
+----------------------------------------
+
+
+for i in comp:
+    if i.startswith('DEL'):
+        print('Some Logic')
+    print('Last Statement of FOR')
+print(line)
+
+for i in comp:
+    if not i.startswith('DEL'):
+        continue
+    if i.startswith('DEL'):
+        print('Some Logic')
+    print('Last Statement of FOR')
+
+
+Output:
+Last Statement of FOR
+Some Logic
+Last Statement of FOR
+Last Statement of FOR
+Some Logic
+Last Statement of FOR
+----------------------------------------
+Some Logic
+Last Statement of FOR
+Some Logic
+Last Statement of FOR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+a = '10'
+b = int(a)
+c = eval(a)
+print(a, b, c)
+d = '[10, 20, 30]'
+e = 'Hello'
+f = list(e)
+print(f)
+g = list(d)
+print(g)
+h = eval(d)
+print(h)
+
+i = 10
+j = 20
+k = eval('i+j')
+print('k=', k)
+
+
+Output:
+10 10 10
+['H', 'e', 'l', 'l', 'o']
+['[', '1', '0', ',', ' ', '2', '0', ',', ' ', '3', '0', ']']
+[10, 20, 30]
+k= 30

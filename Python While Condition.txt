@@ -1,0 +1,127 @@
+a = 0
+while a < 10:
+    print('a=', a)
+    a = a+1  # shortcut is a+=1
+
+
+Output:
+a= 0
+a= 1
+a= 2
+a= 3
+a= 4
+a= 5
+a= 6
+a= 7
+a= 8
+a= 9
+
+
+s = 'python'
+b = 0
+while b < len(s):
+    print('b=', s[b])
+    b+=1
+
+Output:
+b= p
+b= y
+b= t
+b= h
+b= o
+b= n
+
+
+L = ['FN', 'LN', 'ADR', 'a1', 'FN', 'ADR', 'a2', 'FN']
+i = 0
+while i < len(L):
+    if L[i] == 'ADR':
+        i = i+1
+        print(L[i])
+        i = i+1
+    else:
+        i = i+1
+
+Output:
+a1
+a2
+
+
+j = 0
+while j < len(L):
+    if L[j].startswith('a'):
+        print('Found!')
+        break
+    else:
+        j = j+1
+else:
+    print('Not Found!')
+
+
+Output:
+Found!
+
+
+k = 0
+while k < len(L):
+    if not L[k].startswith('a'):
+        k = k+1
+        continue
+    print(L[k])
+    k = k+1
+    print('Last statement of while')
+
+
+Output:
+a1
+Last statement of while
+a2
+Last statement of while
+
+
+cart = []
+while True:
+    i = input('Enter item:')
+    cart.append(i)
+    ch = input('Quit(y/n)? : ')
+    if ch == 'y':
+        print('cart=', cart)
+        break
+
+Output:
+Enter item:20
+Quit(y/n)? : n
+Enter item:10
+Quit(y/n)? : y
+cart= ['20', '10']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
