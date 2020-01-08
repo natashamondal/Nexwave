@@ -1,0 +1,327 @@
+def add():
+    a = 10
+    b = 20
+    c = a + b
+    print('c=', c)
+
+
+add()
+add()
+
+Output:
+c= 30
+c= 30
+
+
+
+def get_ips():
+    F=open('C:\Python Training\log\Server Log.txt')
+    ips=[line.split()[0] for line in F if line[:3].isdigit()]
+    print('ips = ', ips)
+get_ips()
+
+Output:
+ips =  ['123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123']
+
+
+
+def add():
+    a = 10
+    b = 20
+    c = a + b
+    return c
+
+
+add()
+r1 = add()
+print(r1)
+
+Output: 30
+
+
+def add():
+    a = 10
+    b = 20
+    c = a + b
+    # return c # to send something outside the function block
+    # print('After return')
+    # return
+
+
+# if function isn't returning anything default value will be 'none'
+
+add()
+r1 = add()
+print(r1)
+
+Output: None
+
+
+def add():
+    a = 10
+    b = 20
+    c = a + b
+    # return c # to send something outside the function block
+    # print('After return')
+    # return
+    return (a, b, c)
+
+# if function isn't returning anything default value will be 'none'
+
+add()
+r1 = add()
+print(r1)
+
+Output: (10, 20, 30)
+
+
+def add():
+    a = 10
+    b = 20
+    c = a + b
+    # return c # to send something outside the function block
+    # print('After return')
+    # return
+    # return (a, b, c) # returns the values as tuples
+    # return [a, b, c] # returns the values as list
+    return(a+b)/(a-b)  # returns an expression
+
+# if function isn't returning anything default value will be 'none'
+
+add()
+r1 = add()
+print(r1)
+
+Output: -3.0
+
+
+# POSITIONAL ARGUMENTS
+
+def add(a, b):
+    return a + b
+
+
+r = add(10, 20)
+print(r)
+
+Output: 30
+
+
+def get_ips(file_path, mode):
+    F = open(file_path)
+    if file_path.endswith('.csv'):
+        ips = [line.split(',')[0] for line in F]
+        return ips
+    else:
+        ips = [line.split()[0] for line in F]
+        return ips
+
+r = get_ips('log_report.txt','r')
+print('r = ', r)
+
+Output: r =  ['IP', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123']
+
+
+
+# positional args
+# with default values
+def add(a, b = 10):
+    return a + b
+
+
+r = add(10, 20)
+print(r)
+
+def get_ips(file_path, mode = 'r'):
+    F = open(file_path)
+    if file_path.endswith('.csv'):
+        ips = [line.split(',')[0] for line in F]
+        return ips
+    else:
+        ips = [line.split()[0] for line in F]
+        return ips
+
+r = get_ips('log_report.txt','r')
+print('r = ', r)
+
+
+Output:
+30
+r =  ['IP', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123']
+
+
+
+# variable args
+
+def add(a, b=10, *c):
+    print('Extra Args Passed = ', c)
+    r = a + b + sum(c)
+    return r
+
+
+res1 = add(10)
+print('res1 = ', res1)
+print('-' * 40)
+res2 = add(10, 20, 30, 40, 50)
+print('res2 = ', res2)
+
+
+Output:
+Extra Args Passed =  ()
+res1 =  20
+----------------------------------------
+Extra Args Passed =  (30, 40, 50)
+res2 =  150
+
+
+In Terminal: 
+
+Microsoft Windows [Version 10.0.16299.64]
+(c) 2017 Microsoft Corporation. All rights reserved.
+
+(myvenv1) C:\Python Training>cd bin
+
+(myvenv1) C:\Python Training\bin>type log_report.txt
+IP      DATE    PICS    URL123.123.123.123      26/Apr/2000     wpaper.gif      http://www.jafsoft.com/asctortf/
+123.123.123.123 26/Apr/2000     No Image        http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+123.123.123.123 26/Apr/2000     5star2000.gif   http://www.jafsoft.com/asctortf/
+123.123.123.123 26/Apr/2000     5star.gif       http://www.jafsoft.com/asctortf/
+123.123.123.123 26/Apr/2000     a2hlogo.jpg     http://www.jafsoft.com/asctortf/
+123.123.123.123 26/Apr/2000     No Image        http://www.jafsoft.com/asctortf/
+
+(myvenv1) C:\Python Training\bin> type cmd_out.txt
+ Volume in drive C has no label.
+ Volume Serial Number is AAFB-AA70
+
+ Directory of C:\Python Training\bin
+
+01/07/2020  09:51 PM    <DIR>          .
+01/07/2020  09:51 PM    <DIR>          ..
+01/07/2020  09:50 PM                 0 cmd_out.txt
+01/07/2020  08:16 PM               719 comprehensions.py
+01/06/2020  03:18 AM               377 dictionary_ex.py
+01/07/2020  12:45 AM               202 eval_ex.py
+01/07/2020  01:38 AM             1,501 file_ops.py
+01/06/2020  10:47 PM             1,874 for_ex.py
+01/07/2020  08:29 PM               260 funcs_1.py
+01/07/2020  08:41 PM               437 funcs_2.py
+01/07/2020  08:55 PM               379 funcs_3.py
+01/07/2020  08:57 PM               413 funcs_4.py
+01/07/2020  09:51 PM               632 funcs_5.py
+01/06/2020  09:04 PM             1,141 if_ex.py
+01/06/2020  02:41 AM             1,097 list_ex.py
+01/07/2020  02:21 AM               487 log_report.csv
+01/07/2020  02:21 AM               488 log_report.txt
+01/05/2020  10:28 PM               462 num_ex.py
+01/07/2020  01:30 AM                34 out1.txt
+01/07/2020  01:30 AM                 9 out2.csv
+01/07/2020  02:21 AM             1,057 process_log.py
+01/06/2020  03:41 AM               438 set_ex.py
+01/06/2020  12:58 AM             1,805 str_ex.py
+01/05/2020  08:36 PM                26 test.py
+01/06/2020  02:56 AM               284 tuple_ex.py
+01/06/2020  11:20 PM               836 while_ex.py
+              24 File(s)         14,958 bytes
+               2 Dir(s)  839,700,316,160 bytes free
+IPDATEPICSURL
+123.123.123.123,26/Apr/2000,wpaper.gif,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+123.123.123.123,26/Apr/2000,5star2000.gif,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,5star.gif,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,a2hlogo.jpg,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+
+
+In code:
+def telnet(host = None, port = None, *cmds): # packing
+    import subprocess
+    result = []
+    for each_cmd in cmds:
+        r = subprocess.check_output(each_cmd, shell = True)
+        result.append(r)
+    return result
+
+r = telnet(0, 0, 'dir', 'type log_report.csv')
+print('r = ', r)
+F = open('cmd_out.txt', 'w')
+r = [line.decode() for line in r] # decode is a built in function used to convert bytes to string
+F.writelines(r)
+F.close()
+
+c = ['dir', 'type log_report.txt']
+r2 = telnet(0, 0, *c)  # unpacking
+
+
+Output:
+r =  [b' Volume in drive C has no label.\r\n Volume Serial Number is AAFB-AA70\r\n\r\n Directory of C:\\Python Training\\bin\r\n\r\n01/07/2020  09:51 PM    <DIR>          .\r\n01/07/2020  09:51 PM    <DIR>          ..\r\n01/07/2020  09:50 PM                 0 cmd_out.txt\r\n01/07/2020  08:16 PM               719 comprehensions.py\r\n01/06/2020  03:18 AM               377 dictionary_ex.py\r\n01/07/2020  12:45 AM               202 eval_ex.py\r\n01/07/2020  01:38 AM             1,501 file_ops.py\r\n01/06/2020  10:47 PM             1,874 for_ex.py\r\n01/07/2020  08:29 PM               260 funcs_1.py\r\n01/07/2020  08:41 PM               437 funcs_2.py\r\n01/07/2020  08:55 PM               379 funcs_3.py\r\n01/07/2020  08:57 PM               413 funcs_4.py\r\n01/07/2020  09:51 PM               632 funcs_5.py\r\n01/06/2020  09:04 PM             1,141 if_ex.py\r\n01/06/2020  02:41 AM             1,097 list_ex.py\r\n01/07/2020  02:21 AM               487 log_report.csv\r\n01/07/2020  02:21 AM               488 log_report.txt\r\n01/05/2020  10:28 PM               462 num_ex.py\r\n01/07/2020  01:30 AM                34 out1.txt\r\n01/07/2020  01:30 AM                 9 out2.csv\r\n01/07/2020  02:21 AM             1,057 process_log.py\r\n01/06/2020  03:41 AM               438 set_ex.py\r\n01/06/2020  12:58 AM             1,805 str_ex.py\r\n01/05/2020  08:36 PM                26 test.py\r\n01/06/2020  02:56 AM               284 tuple_ex.py\r\n01/06/2020  11:20 PM               836 while_ex.py\r\n              24 File(s)         14,958 bytes\r\n               2 Dir(s)  839,700,316,160 bytes free\r\n', b'IPDATEPICSURL\r\n123.123.123.123,26/Apr/2000,wpaper.gif,http://www.jafsoft.com/asctortf/\r\n123.123.123.123,26/Apr/2000,No Image,http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF\r\n123.123.123.123,26/Apr/2000,5star2000.gif,http://www.jafsoft.com/asctortf/\r\n123.123.123.123,26/Apr/2000,5star.gif,http://www.jafsoft.com/asctortf/\r\n123.123.123.123,26/Apr/2000,a2hlogo.jpg,http://www.jafsoft.com/asctortf/\r\n123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/\r\n']
+
+
+
+# keyword only args
+def add(a, b=10, *c, d, e):
+    r = a + b + sum(c) + d + e
+    return r
+
+
+res = add(10, 20, 30, 40, 50, e=60, d=70)
+print('res =', res)
+
+Output: res = 280
+
+
+def telnet(*cmds, h=None, p=None):
+    return 'Hello'
+
+
+res2 = telnet()
+res3 = telnet('dir')
+print(res2, res3)
+res4 = telnet('dir', p = 1, h = 2)
+print(res4)
+# telnet(*, h, p) -> can take args in any order
+
+
+Output:
+Hello Hello
+Hello
+
+
+
+# variable keyword only args
+def add(a, b=10, *c, d, e, **f):  # f is to capture extra keyword args.
+    # c is variable positional arg and f is variable keyword arg.
+    # c captures elements in a tuple while f captures in a dictionary
+    print('Extra keywords only arg = ', f)
+    r = a + b + sum(c) + d + e + sum(f.values())
+    return r
+
+
+r1 = add(10, d=20, e=30)
+print('r1 = ', r1)
+print('-' * 40)
+r2 = add(10, 20, 30, 40, 50, d=60, e=70, x=80, y=90)
+print('r2 =', r2)
+
+D = {'d' : 50, 'e' : 60, 'x' : 70}
+res3 = add(10, 20, 30, 40, **D)
+print('res3', res3)
+
+
+
+Output:
+Extra keywords only arg =  {}
+r1 =  70
+----------------------------------------
+Extra keywords only arg =  {'x': 80, 'y': 90}
+r2 = 450
+
+Extra keywords only arg =  {'x': 70}
+res3 280 
+
+
+
+
+
+
+
+
