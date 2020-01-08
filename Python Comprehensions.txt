@@ -1,0 +1,51 @@
+L1 = [i for i in range(10)]
+print(L1)
+L2 = [i * i for i in L1 if i % 2 == 0]
+print(L2)
+
+Output:
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[0, 4, 16, 36, 64]
+
+
+F = open('out1.txt')
+L3 = [line.strip() for line in F]
+print(L3)
+
+Output:
+['10', 'python', '10', 'python', '20', 'java']
+
+
+F2 = open('C:\Python Training\log\Server Log.txt')
+IP = [line.split()[0] for line in F2 if line[:3].isdigit()]
+print(IP)
+
+Output:
+['123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123']
+
+
+
+F2.seek(0)
+IP2 = (line.split()[0] for line in F2 if line[:3].isdigit())
+print(IP2)
+
+Output:
+<generator object <genexpr> at 0x00000289438EE5F0>
+
+
+F2.seek(0)
+images = [line.split()[6].lstrip('/pics/') if 'pics' in line.split()[6] else 'No Image' for line in F2 if
+          line[:3].isdigit()]
+print(images)
+
+Output:
+['wpaper.gif', 'No Image', '5star2000.gif', '5star.gif', 'a2hlogo.jpg', 'No Image']
+
+
+hosts = ['h1', 'h2']
+ips = ['ip1', 'ip2']
+D = {k : v for k, v in zip(hosts, ips)}
+print(D)
+
+Output:
+{'h1': 'ip1', 'h2': 'ip2'}
