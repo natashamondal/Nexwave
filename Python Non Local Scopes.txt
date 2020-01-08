@@ -1,0 +1,50 @@
+count = 0
+
+
+def create_acc():
+    global count
+    count += 1
+
+
+def delete_acc():
+    global count
+    count -= 1
+
+
+create_acc()
+create_acc()
+count = 100 # but this count can change as it is global and that's why we use nonlocal variable scope
+delete_acc()
+print('Total Accounts =', count)
+
+
+def acc():
+    c = 0
+
+    def ca():
+        nonlocal c
+        c = c + 1
+
+    def da():
+        nonlocal c
+        c = c - 1
+
+    def ta():
+        print('Total =', c)
+
+    return ca, da, ta
+
+
+x = (10, 20)
+x, y = (10, 20)
+f1, f2, f3 = acc()  # ca, da, ta
+f1()
+f1()
+c = 100
+f2()
+f3()
+
+
+Output:
+Total Accounts = 99
+Total = 1
