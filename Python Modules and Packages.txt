@@ -1,0 +1,182 @@
+In lib create a file addmodule.py
+msg = 'Module Demo'
+def add(a, b):
+    return a + b
+
+In bin create a file mainprog.py
+import addmodule
+print(addmodule.msg)
+print(addmodule.add(10, 20))
+
+print('-' * 40)
+
+# second way
+import sys
+print(sys.path)
+# sys.path.append(r'C:\Python Training\lib)
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/mainprog.py"
+Module Demo
+30
+----------------------------------------
+['C:\\Python Training\\bin', 'C:\\Python Training', 'C:\\Python Training\\lib', 'C:\\Python38\\python38.zip', 'C:\\Python38\\DLLs', 'C:\\Python38\\lib', 'C:\\Python38', 'C:\\Python Training\\myvenv1', 'C:\\Python Training\\myvenv1\\lib\\site-packages']
+
+Process finished with exit code 0
+
+
+In lib:
+msg = 'Module Demo'
+
+
+def add(a, b):
+    return a + b
+
+ 
+print('xyz = ', msg)
+print('name = ', __name__)
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/lib/addmodule.py"
+xyz =  Module Demo
+name =  __main__
+
+In bin output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/mainprog.py"
+xyz =  Module Demo
+name =  addmodule
+Module Demo
+30
+
+In lib:
+msg = 'Module Demo'
+
+
+def add(a, b):
+    return a + b
+
+if __name__=='__main__':
+    print('xyz = ', msg)
+    print('name = ', __name__)
+
+
+Output in lib:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/lib/addmodule.py"
+xyz =  Module Demo
+name =  __main__
+
+Output in bin:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/mainprog.py"
+Module Demo
+30
+
+In bin:
+import addmodule
+print(addmodule.msg)
+print(addmodule.add(10, 20))
+
+print('-' * 40)
+
+# second way
+import sys
+print(sys.path)
+# sys.path.append(r'C:\Python Training\lib)
+
+print('-' * 40)
+
+# aliasing
+import addmodule as a
+print(a.msg)
+print(a.add(10, 20))
+
+print('-' * 40)
+
+# third way
+from addmodule import msg, add
+print(msg)
+print(add(10, 20))
+
+print('-' * 40)
+
+# fourth way (aliasing each element)
+from addmodule import msg as m, add as a
+print(m)
+print(a(10, 20))
+
+print('-' * 40)
+
+# fifth way
+from addmodule import *
+print(msg)
+print(add(10, 20))
+
+print('-' * 40)
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/mainprog.py"
+Module Demo
+30
+----------------------------------------
+['C:\\Python Training\\bin', 'C:\\Python Training', 'C:\\Python Training\\lib', 'C:\\Python38\\python38.zip', 'C:\\Python38\\DLLs', 'C:\\Python38\\lib', 'C:\\Python38', 'C:\\Python Training\\myvenv1', 'C:\\Python Training\\myvenv1\\lib\\site-packages']
+----------------------------------------
+Module Demo
+30
+----------------------------------------
+Module Demo
+30
+----------------------------------------
+Module Demo
+30
+----------------------------------------
+Module Demo
+30
+----------------------------------------
+
+Process finished with exit code 0
+
+
+
+
+In lib create a directory 'project' and create another directory 'net' under 'project' dir
+copy contents of addmodule and paste in net
+
+In mainprog of bin:
+import project.net.addmodule
+print(project.net.addmodule.msg)
+print('-' * 40)
+
+import project.net.addmodule as a
+print(a.msg)
+print('-' * 40)
+
+from project.net.addmodule import msg, add
+print(msg)
+print('-' * 40)
+
+Output:
+Module Demo
+----------------------------------------
+Module Demo
+----------------------------------------
+Module Demo
+----------------------------------------
+
+
+Create a __init__.py file in net:
+print('Inside Init')
+
+Run the mainprog in bin:
+Output:
+Inside Init
+Module Demo
+----------------------------------------
+Module Demo
+----------------------------------------
+Module Demo
+----------------------------------------
+
+
+
+
+
