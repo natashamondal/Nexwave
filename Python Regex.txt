@@ -1,0 +1,44 @@
+s = 'abc123xyz456ABC'
+r1 = s.split('123')
+print('r1 =', r1)
+print('-' * 40)
+
+import re
+
+r2 = re.split('\d{3}', s)
+print('r2 = ', r2)
+print('-' * 40)
+
+r3 = s.find('123')
+if r3 != -1:
+    print('Substring found!')
+print('-' * 40)
+
+r4 = re.search('\d{2}', s)
+if r4 != None:
+    print('digit found')
+print('-' * 40)
+
+F = open(r'C:\Python Training\log\Server Log.txt')
+data = F.read()
+ips = re.findall('\d{3}.\d{3}.\d{3}.\d{3}', data)
+print('ips =', ips)
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/regex_2.py"
+r1 = ['abc', 'xyz456ABC']
+----------------------------------------
+r2 =  ['abc', 'xyz', 'ABC']
+----------------------------------------
+Substring found!
+----------------------------------------
+digit found
+----------------------------------------
+ips = ['123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123', '123.123.123.123']
+
+Process finished with exit code 0
+
+
+
+
