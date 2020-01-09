@@ -1,0 +1,251 @@
+import pandas as pd
+
+df = pd.read_csv('dbdump.csv')
+print(df['IP'])
+
+df2 = df['IP'].describe()
+print(df2)
+line = '-' * 40
+print(line)
+
+df3 = df['ID'].describe()
+print(df3)
+print(line)
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/pandas_ex.py"
+0      123.123.123.123
+1      123.123.123.123
+2      123.123.123.123
+3      123.123.123.123
+4      123.123.123.123
+            ...       
+97     123.123.123.123
+98     123.123.123.123
+99     123.123.123.123
+100    123.123.123.123
+101    123.123.123.123
+Name: IP, Length: 102, dtype: object
+count                 102
+unique                  1
+top       123.123.123.123
+freq                  102
+Name: IP, dtype: object
+----------------------------------------
+count    102.000000
+mean      51.500000
+std       29.588849
+min        1.000000
+25%       26.250000
+50%       51.500000
+75%       76.750000
+max      102.000000
+Name: ID, dtype: float64
+----------------------------------------
+
+Process finished with exit code 0
+
+
+df4 = df.describe()
+print(df4)
+print(line)
+
+
+Output:
+               ID
+count  102.000000
+mean    51.500000
+std     29.588849
+min      1.000000
+25%     26.250000
+50%     51.500000
+75%     76.750000
+max    102.000000
+----------------------------------------
+
+
+df5 = df['ID'].mean()
+print('df5 = ', df5)
+print(line)
+
+Output:
+df5 =  51.5
+----------------------------------------
+
+
+df6 = df.head(5) # top 5 rows
+df7 = df.tail(5) # bottom 5 rows
+print('df6 = ', df6)
+print(line)
+print('df7 = ', df7)
+print(line)
+
+Output:
+df6 =                  IP  ... ID
+0  123.123.123.123  ...  1
+1  123.123.123.123  ...  2
+2  123.123.123.123  ...  3
+3  123.123.123.123  ...  4
+4  123.123.123.123  ...  5
+
+[5 rows x 5 columns]
+----------------------------------------
+df7 =                    IP  ...   ID
+97   123.123.123.123  ...   98
+98   123.123.123.123  ...   99
+99   123.123.123.123  ...  100
+100  123.123.123.123  ...  101
+101  123.123.123.123  ...  102
+
+[5 rows x 5 columns]
+----------------------------------------
+
+df8 = df['PICS'].value_counts()
+print('df8 =', df8)
+print(line)
+
+Output:
+df8 = No Image         116
+5star2000.gif      1
+wpaper.gif         1
+a2hlogo.jpg        1
+5star.gif          1
+Name: PICS, dtype: int64
+----------------------------------------
+
+
+
+import matplotlib.pyplot as plt
+
+# df8.plot()
+# plt.show()
+
+df8.plot.bar()
+# plt.show()
+plt.savefig('mygraph.png', bbox_inches='tight')
+
+writer = pd.ExcelWriter('Report.xlsx', engine='xlsxwriter')
+df8.to_excel(writer, sheet_name='DATA')
+wb = writer.book
+ws = wb.add_worksheet('GRAPH')
+ws.insert_image('B2', 'mygraph.png')
+writer.close()
+
+df9 = df[df['ID'] > 10]
+print('df9 =', df9)
+
+df10 = df[df['PICS'].str.endswith('jpg')]
+print('df10 =', df10)
+
+df11 = df.groupby(['PICS']).count()
+print('df11 =', df11)
+
+# slicing
+df12 = df.iloc[1, 1]  # 1 cell
+df13 = df.iloc[1]  # 1 row
+df14 = df.iloc[:, 1]  # all rows of 1 column
+df15 = df.iloc[1:10:2]  # 1 to 9 row step by 2
+df16 = df.iloc[:, 0:5:2]  # 0 to 5 col step by 2
+df17 = df.iloc[5:10, 1:4]
+df18 = df.iloc[[1,4,7]]
+df19 = df.iloc[[1,4,7], [1,3]]
+print(df12, df13, df14, df15, df16, df18, df19)
+
+
+
+Output:
+df9 =                   IP  ...   ID
+10   123.123.123.123  ...   11
+11   123.123.123.123  ...   12
+12   123.123.123.123  ...   13
+13   123.123.123.123  ...   14
+14   123.123.123.123  ...   15
+..               ...  ...  ...
+115  123.123.123.123  ...  116
+116  123.123.123.123  ...  117
+117  123.123.123.123  ...  118
+118  123.123.123.123  ...  119
+119  123.123.123.123  ...  120
+
+[110 rows x 5 columns]
+df10 =                   IP       DATE  ...                               URL   ID
+118  123.123.123.123  26-Apr-00  ...  http://www.jafsoft.com/asctortf/  119
+
+[1 rows x 5 columns]
+df11 =                 IP  DATE  URL   ID
+PICS                              
+5star.gif        1     1    1    1
+5star2000.gif    1     1    1    1
+No Image       116   116  116  116
+a2hlogo.jpg      1     1    1    1
+wpaper.gif       1     1    1    1
+26-Apr-00 IP                                        123.123.123.123
+DATE                                            26-Apr-00
+PICS                                             No Image
+URL     http://search.netscape.com/Computers/Data_Form...
+ID                                                      2
+Name: 1, dtype: object 0      26-Apr-00
+1      26-Apr-00
+2      26-Apr-00
+3      26-Apr-00
+4      26-Apr-00
+         ...    
+115    26-Apr-00
+116    26-Apr-00
+117    26-Apr-00
+118    26-Apr-00
+119    26-Apr-00
+Name: DATE, Length: 120, dtype: object                 IP  ...  ID
+1  123.123.123.123  ...   2
+3  123.123.123.123  ...   4
+5  123.123.123.123  ...   6
+7  123.123.123.123  ...   8
+9  123.123.123.123  ...  10
+
+[5 rows x 5 columns]                   IP           PICS   ID
+0    123.123.123.123       No Image    1
+1    123.123.123.123       No Image    2
+2    123.123.123.123       No Image    3
+3    123.123.123.123       No Image    4
+4    123.123.123.123       No Image    5
+..               ...            ...  ...
+115  123.123.123.123       No Image  116
+116  123.123.123.123  5star2000.gif  117
+117  123.123.123.123      5star.gif  118
+118  123.123.123.123    a2hlogo.jpg  119
+119  123.123.123.123       No Image  120
+
+[120 rows x 3 columns]                 IP  ... ID
+1  123.123.123.123  ...  2
+4  123.123.123.123  ...  5
+7  123.123.123.123  ...  8
+
+[3 rows x 5 columns]         DATE                                                URL
+1  26-Apr-00  http://search.netscape.com/Computers/Data_Form...
+4  26-Apr-00                   http://www.jafsoft.com/asctortf/
+7  26-Apr-00  http://search.netscape.com/Computers/Data_Form...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
