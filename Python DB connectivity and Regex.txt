@@ -1,0 +1,929 @@
+Database:
+Install DB BROWSER FOR SQLITE-> Open database-> select your database
+
+regex.py
+import sqlite3
+con=sqlite3.connect('mydb.sqlite3') #mydb is the database name
+
+#to connect to any other databases:
+#import pymysql
+#con=pymysql.connect(user='',password='',host='',port='',database='')
+
+#obtaining the cursor to communicate to the database
+cur=con.cursor()
+
+#sql query to create the table
+query='''CREATE TABLE IF NOT EXISTS LOGDATA(
+         IP VARCHAR(100),
+         DATE VARCHAR(100),
+         PICS VARCHAR(100),
+         URL VARCHAR(100))'''
+cur.execute(query)
+
+#to read the website data, urllib is provided
+import urllib.request as u
+myurl='https://www.jafsoft.com/searchengines/log_sample.html'
+F=u.urlopen(myurl)
+
+import re #regular expression
+
+
+
+for line in F:
+    print(line)
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/regex.py"
+b'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"   \r\n'
+b'"http://www.w3.org/TR/REC-html40/loose.dtd">\r\n'
+b'<HTML>\r\n'
+b'<HEAD>\r\n'
+b'<!-- Converted by AscToHTM 5.0 - fully registered version -->\r\n'
+b' <TITLE>A Web server log file explained</TITLE>\r\n'
+b'  <LINK REL="StyleSheet" HREF="../style.css" TYPE="text/css">\r\n'
+b'  <LINK REL="SHORTCUT ICON" HREF="favicon.ico">\r\n'
+b' <META NAME="Description"\r\n'
+b'       CONTENT="A web server log fragment explained">\r\n'
+b' <META NAME="Generator" CONTENT="AscToHTM from www.jafsoft.com">\r\n'
+b' <META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">\r\n'
+b'<STYLE TYPE="text/css">\r\n'
+b'<!-- \r\n'
+b' H1, H2, H3, H4, H5, H6\r\n'
+b'\t{ color: Blue;\t}\r\n'
+b' -->\r\n'
+b'</STYLE>\r\n'
+b'</HEAD>\r\n'
+b'<BODY BGCOLOR="#BBBBBB">\r\n'
+b'<A NAME="a_web_server_log_file_sample_explained"> </A>\r\n'
+b'<H2>A web server log file sample explained</H2>\r\n'
+b'\r\n'
+b'<P>This page discusses the information that be can extracted from such logs, and - to a limited extent - how this could\r\n'
+b'impact on your privacy when surfing.</P>\r\n'
+b'\r\n'
+b'\r\n'
+b'<P>The following is a fragment from the server logs for JafSoft Limited.  All the relative\r\n'
+b'URLs are for the base URL <A HREF="http://www.jafsoft.com/">http://www.jafsoft.com/</A>.\r\n'
+b'</P>\r\n'
+b'<P>\r\n'
+b'First lets look at a fragment of log file....\r\n'
+b'</P>\r\n'
+b'<HR NOSHADE>\r\n'
+b'<!-- User-specified pre-formatted text -->\r\n'
+b'<PRE>\r\n'
+b'fcrawler.looksmart.com - - [26/Apr/2000:00:00:12 -0400] "GET /contacts.html HTTP/1.0" 200 4595 "-" "FAST-WebCrawler/2.1-pre2 (ashen@looksmart.net)"\r\n'
+b'fcrawler.looksmart.com - - [26/Apr/2000:00:17:19 -0400] "GET /news/news.html HTTP/1.0" 200 16716 "-" "FAST-WebCrawler/2.1-pre2 (ashen@looksmart.net)"\r\n'
+b'\r\n'
+b'ppp931.on.bellglobal.com - - [26/Apr/2000:00:16:12 -0400] "GET /download/windows/asctab31.zip HTTP/1.0" 200 1540096 "<A HREF="http://www.htmlgoodies.com/downloads/freeware/webdevelopment/15.html">http://www.htmlgoodies.com/downloads/freeware/webdevelopment/15.html</A>" "Mozilla/4.7 [en]C-SYMPA  (Win95; U)"\r\n'
+b'\r\n'
+b'123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/wpaper.gif HTTP/1.0" 200 6248 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+b'123.123.123.123 - - [26/Apr/2000:00:23:47 -0400] "GET /asctortf/ HTTP/1.0" 200 8130 "<A HREF="http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF">http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+b'123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/5star2000.gif HTTP/1.0" 200 4005 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+b'123.123.123.123 - - [26/Apr/2000:00:23:50 -0400] "GET /pics/5star.gif HTTP/1.0" 200 1031 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+b'123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /pics/a2hlogo.jpg HTTP/1.0" 200 4282 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+b'123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /cgi-bin/newcount?jafsof3&amp;width=4&amp;font=digital&amp;noshow HTTP/1.0" 200 36 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+b'</PRE>\r\n'
+b'<!-- end of user-specified pre-formatted text -->\r\n'
+b'<BR>\r\n'
+b'<HR NOSHADE>\r\n'
+b'\r\n'
+b"<P><EM>(Note, I've added some space for clarity, and changed the IP number to\r\n"
+b'123.123.123.123 to protect\r\n'
+b'the privacy of the actual visitor)</EM></P>\r\n'
+b'\r\n'
+b'\r\n'
+b'<P>The fragment shown represents three visitors to my web site</P>\r\n'
+b'\r\n'
+b'<BLOCKQUOTE>\r\n'
+b' <OL type="1" start="1">\r\n'
+b'   <LI VALUE="1">\r\n'
+b'    A visit from the "FAST-WebCrawler" web spider from the <A HREF="http://www.looksmart.com/">www.looksmart.com</A> site.  This\r\n'
+b'   retrieved my contacts and news pages, and presumably (re-)indexed them for their\r\n'
+b'   search engine.\r\n'
+b'   <BR><BR></LI>\r\n'
+b'\r\n'
+b'   <LI VALUE="2">\r\n'
+b'    Someone using the bellglobal.com ISP to download my <A HREF="http://www.jafsoft.com/asctotab/">AscToTab</A> program in a .zip file.\r\n'
+b'    This person came from the <A HREF="http://www.htmlgoodies.com/">www.htmlgoodies.com</A> website.\r\n'
+b'   <BR><BR></LI>\r\n'
+b'\r\n'
+b'   <LI VALUE="3">\r\n'
+b'   Someone from IP address 123.123.123.123 (changed to protect identity) who looked at\r\n'
+b'    my <A HREF="http://www.jafsoft.com/asctortf/">AscToRTF - text to RTF converter</A> homepage.  This person came from the web directory at Netscape\'s site, and\r\n'
+b'   was using a Macintosh (which is a shame, because this is Windows software :-)</LI>\r\n'
+b'\r\n'
+b' </OL>\r\n'
+b'</BLOCKQUOTE>\r\n'
+b'\r\n'
+b'<P>A few things to note :</P>\r\n'
+b'\r\n'
+b'<BLOCKQUOTE>\r\n'
+b' <UL>\r\n'
+b'   <LI>Each line in the file represents a single "hit" on a file on the web server,\r\n'
+b'   and consists of a number of fields (explained below)\r\n'
+b'   <BR><BR></LI>\r\n'
+b'\r\n'
+b'   <LI>A web server "hit" is not the same as a web page "hit".  For example the visit\r\n'
+b'    by "123.123.123.123" consists of a visit to the page <A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>\r\n'
+b'   which includes 3 gifs, 1 jpg and a call to an (invisible) cgi-bin web counter.\r\n'
+b'   <BR><BR></LI>\r\n'
+b'\r\n'
+b'   <LI>The visit by "123.123.123.123" also included a web stats graphic which,\r\n'
+b"   being retrieved from a different site, doesn't actually show up in\r\n"
+b"    <STRONG>this</STRONG> site's log.\r\n"
+b'   <BR><BR>\r\n'
+b'   </LI>\r\n'
+b'\r\n'
+b'   <LI>The entries are not in strict time order.  My guess is that the log is updated\r\n'
+b'   after the transfer completes, with a timestamp for when it started, and probably\r\n'
+b'   by a different server thread.\r\n'
+b'   <BR><BR>\r\n'
+b'   </LI>\r\n'
+b'\r\n'
+b"   <LI>Although in this case the three visitors didn't overlap in the log file, in\r\n"
+b"    general this wouldn't be the case.\r\n"
+b'    <BR><BR>\r\n'
+b'    </LI>\r\n'
+b'\r\n'
+b'    <LI>Although in this case the entries are in strict chronological order, occasionaly\r\n'
+b"    this isn't true, as the log gets updated once the transfer is complete, and\r\n"
+b'    sometimes the main page completes after images etc on that page.\r\n'
+b'    <BR>\r\n'
+b'    </LI>\r\n'
+b'  </UL>\r\n'
+b'</BLOCKQUOTE>\r\n'
+b'<A NAME="fields"> </A>\r\n'
+b'<H2>FIELDS</H2>\r\n'
+b'<P>\r\n'
+b'Different servers have different log formats.  Nevertheless the data in this log fragment is\r\n'
+b"pretty typical of the information available.  Let's look at one line from the above fragment\r\n"
+b'(split for easier viewing).\r\n'
+b'</P>\r\n'
+b'<!-- User-specified pre-formatted text -->\r\n'
+b'<PRE>\r\n'
+b'        ppp931.on.bellglobal.com\r\n'
+b'        - -\r\n'
+b'        [26/Apr/2000:00:16:12 -0400]\r\n'
+b'        "GET /download/windows/asctab31.zip HTTP/1.0"\r\n'
+b'        200\r\n'
+b'        1540096\r\n'
+b'        "<A HREF="http://www.htmlgoodies.com/downloads/freeware/webdevelopment/15.html">http://www.htmlgoodies.com/downloads/freeware/webdevelopment/15.html</A>"\r\n'
+b'        "Mozilla/4.7 [en]C-SYMPA  (Win95; U)"\r\n'
+b'</PRE>\r\n'
+b'<!-- end of user-specified pre-formatted text -->\r\n'
+b'<BR>\r\n'
+b'<BR>\r\n'
+b'<A NAME="ip_address____ppp931.on.bellglobal.com_"> </A>\r\n'
+b'<H3>IP address : "ppp931.on.bellglobal.com"</H3>\r\n'
+b'<BLOCKQUOTE>\r\n'
+b' <P>This is the IP address of the machine that contacted our site. In\r\n'
+b' this case my ISP has done a reverse-DNS to get the machine name, revealing\r\n'
+b' that this user came via bellglobal.com.  The ".on" may imply a state name,\r\n'
+b" I couldn't say offhand.  If the DNS lookup had failed, then the\r\n"
+b' log would simply contain the IP number, e.g. "123.123.123.123".</P>\r\n'
+b'\r\n'
+b' <P>You can usually stick "http://www." in front of this address to get a real\r\n'
+b'  web site.  In this case I\'d guess <A HREF="http://www.bellglobal.com/">http://www.bellglobal.com/</A> would work.</P>\r\n'
+b'\r\n'
+b'  <P>For an IP number you can try <A HREF="http://123.123.123.123/">http://123.123.123.123/</A> but often that won\'t\r\n'
+b' work.  If you try a TRACEROUTE you may get an indication as what this machine\r\n'
+b' was.</P>\r\n'
+b'\r\n'
+b" <P>As regards privacy, you can't prevent this information being given away.  Of\r\n"
+b' course how easy it is to associate you with your IP address is another matter.\r\n'
+b' In this case all I can say is "someone at bellglobal.com".  It\'s quite likely\r\n'
+b' that were you to visit again tomorrow the "ppp931.on" part would be different,\r\n'
+b' making tracking your interest in the site almost impossible.</P>\r\n'
+b'\r\n'
+b' <BR>\r\n'
+b'</BLOCKQUOTE>\r\n'
+b'<A NAME="username_etc___-_-_"> </A>\r\n'
+b'<H3>Username etc: "- -"</H3>\r\n'
+b'<BLOCKQUOTE>\r\n'
+b' <P>Username etc.  Only relevant when accessing password-protected content.</P>\r\n'
+b'\r\n'
+b' <BR>\r\n'
+b'</BLOCKQUOTE>\r\n'
+b'<A NAME="timestamp____[26/apr/2000_00_16_12_-0400]_"> </A>\r\n'
+b'<H3>Timestamp : "[26/Apr/2000:00:16:12 -0400]"</H3>\r\n'
+b'<BLOCKQUOTE>\r\n'
+b' <P>Time stamp of the visit as seen by the web server.</P>\r\n'
+b'\r\n'
+b' <BR>\r\n'
+b'</BLOCKQUOTE>\r\n'
+b'<A NAME="access_request____get_/downloa__acc01974"> </A>\r\n'
+b'<H3>Access request : "GET /download/windows/asctab31.zip HTTP/1.0"</H3>\r\n'
+b'<BLOCKQUOTE>\r\n'
+b' <P>The request made.  In this case it was a "GET" request (i.e. "show me the page")\r\n'
+b' for the file "/download/windows/asctab31.zip" using the "HTTP/1.0" protocol.</P>\r\n'
+b'\r\n'
+b' <P>A "HEAD" request fetches only the document header, and is the web equivalent\r\n'
+b' of a "ping" to check your page is still there and hasn\'t changed.</P>\r\n'
+b'\r\n'
+b' <BR>\r\n'
+b'</BLOCKQUOTE>\r\n'
+b'<A NAME="result_status_code____200_"> </A>\r\n'
+b'<H3>Result status code : "200"</H3>\r\n'
+b'<BLOCKQUOTE>\r\n'
+b' <P>The resulting status code. "200" is success.  If the requested URL didn\'t\r\n'
+b' exist, this is where the dreaded "404" would have shown up in the log.\r\n'
+b'  For a list of possible codes, visit <A HREF="http://www.bigblock.com/support/wri_http.htm">http://www.bigblock.com/support/wri_http.htm</A></P>\r\n'
+b'\r\n'
+b'</BLOCKQUOTE>\r\n'
+b'<A NAME="bytes_transferred____1540096_"> </A>\r\n'
+b'<H3>Bytes transferred : "1540096"</H3>\r\n'
+b'<BLOCKQUOTE>\r\n'
+b' <P>The number of bytes transferred.  In this case I know this matches the size\r\n'
+b' of the file requested, so this was a successful download.  If the number had\r\n'
+b' been less, then that would indicate a failed or partial download.</P>\r\n'
+b'\r\n'
+b' <P>Some user agents (see below) can fetch files a bit at a time.  Each bit will\r\n'
+b' show up as a separate line in the log file, so a series of "hits" whose\r\n'
+b' total adds up to, or exceeds, the file size could indicate a successful\r\n'
+b' download.  On the other hand it could indicate someone having trouble\r\n'
+b' connecting to your site who has to keep reconnecting.</P>\r\n'
+b'\r\n'
+b' <BR>\r\n'
+b'</BLOCKQUOTE>\r\n'
+b'<A NAME="referrer_url____http_//www.htm__ref02931"> </A>\r\n'
+b'<H3>Referrer URL : "<A HREF="http://www.htmlgoodies.com/downloads/freeware/webdevelopment/15.html">http://www.htmlgoodies.com/downloads/freeware/webdevelopment/15.html</A>"</H3>\r\n'
+b'<BLOCKQUOTE>\r\n'
+b' <P>The referring page.  Not all user agents (see below) supply this information.\r\n'
+b' This is the page the visitor was on when they clicked to come to this page.  Usually\r\n'
+b' this will mean that this page has a link to yours, but sometimes this is simply\r\n'
+b' the page the user was looking at when they typed in your address into their\r\n'
+b' browser, or clicked on your address in some other software such as a newsreader\r\n'
+b' or an email client.</P>\r\n'
+b'\r\n'
+b' <P>This information is very useful to webmasters, as it allows them to measure\r\n'
+b' which sites are driving traffic to their site.  It also represents a small\r\n'
+b' loss of privacy, as it lets me see where visitors are coming from.... not that\r\n'
+b' I know who they are (see the IP discussion above).</P>\r\n'
+b'\r\n'
+b' <P>Depending on the browser used, visitors may be able to "withhold" this\r\n'
+b' information, although doing so just makes life a little harder for webmasters\r\n'
+b' to optimise their sites.  Where the referrer is withheld it appears in the log as\r\n'
+b'  "-".</P>\r\n'
+b'\r\n'
+b' <BR>\r\n'
+b'</BLOCKQUOTE>\r\n'
+b'<A NAME="user_agent____mozilla/4.7_[en]c-sympa_(win95;_u)_"> </A>\r\n'
+b'<H3>User Agent : "Mozilla/4.7 [en]C-SYMPA  (Win95; U)"</H3>\r\n'
+b'<BLOCKQUOTE>\r\n'
+b' <P>The "User Agent" identifier.  The User Agent is whatever software the visitor used\r\n'
+b" to access this site.  It's usually a browser, but it could equally be a web robot,\r\n"
+b' a link checker, an FTP client or an offline browser.</P>\r\n'
+b'\r\n'
+b' <P>The "user agent" string is set by the software manufacturer, and can be anything\r\n'
+b" they choose to be.  As such it can't be relied upon, although most reputable\r\n"
+b' software writers will use a string that helps identify the client.</P>\r\n'
+b'\r\n'
+b' <P>In this case "Mozilla/4.7" probably means Netscape 4.7, "[en]" probably implies\r\n'
+b' it\'s an English version, "Win 95" indicates Windows 95 etc, etc.</P>\r\n'
+b'\r\n'
+b' <P>Some agents allow you to withhold this identifier, some let you set it yourself,\r\n'
+b' other will actually "fake" this to look like something else (it\'s a long story).\r\n'
+b' Where the agent is withheld it appears in the log as "-".</P>\r\n'
+b'\r\n'
+b" <P>As I said, this can't be relied upon, but potentially it tells webmasters a\r\n"
+b' lot about what software is being used to access their site.  Some web sites\r\n'
+b' will actually serve up different pages according to the value of this string\r\n'
+b' e.g. different pages for IE and Netscape to offer workarounds the various\r\n'
+b' bugs in both products CSS implementations.</P>\r\n'
+b'\r\n'
+b' <P>Well-behaved webbots and spiders will usually use this string to identify\r\n'
+b' themselves, their web site and an email address you can contact if the spider\r\n'
+b' starts giving your site problems.</P>\r\n'
+b'\r\n'
+b' <P>You can see this in the LookSmart spider entries, whose user agent is</P>\r\n'
+b'\r\n'
+b' <P><EM>"FAST-WebCrawler/2.1-pre2 (ashen@looksmart.net)"</EM></P>\r\n'
+b'\r\n'
+b'  <P>For more on user agents visit my <A HREF="webbots.html">User agents and web robots</A> page.</P>\r\n'
+b'\r\n'
+b'</BLOCKQUOTE>\r\n'
+b'<HR NOSHADE>\r\n'
+b'\r\n'
+b'<P>This page was last converted from text by the author\'s program <A HREF="http://www.jafsoft.com/asctohtm/">AscToHTM</A> on 9-Jan-2005</P>\r\n'
+b'\r\n'
+b'<HR NOSHADE>\r\n'
+b'<!-- Converted by AscToHTM 5.0 - fully registered version -->\r\n'
+b'</BODY>\r\n'
+b'</HTML>\r\n'
+
+Process finished with exit code 0
+
+
+
+for line in F:
+    print(line)
+    print(type(line))
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/regex.py"
+b'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"   \r\n'
+<class 'bytes'>
+b'"http://www.w3.org/TR/REC-html40/loose.dtd">\r\n'
+<class 'bytes'>
+b'<HTML>\r\n'
+<class 'bytes'>
+b'<HEAD>\r\n'
+<class 'bytes'>
+b'<!-- Converted by AscToHTM 5.0 - fully registered version -->\r\n'
+<class 'bytes'>
+b' <TITLE>A Web server log file explained</TITLE>\r\n'
+<class 'bytes'>
+b'  <LINK REL="StyleSheet" HREF="../style.css" TYPE="text/css">\r\n'
+<class 'bytes'>
+b'  <LINK REL="SHORTCUT ICON" HREF="favicon.ico">\r\n'
+<class 'bytes'>
+b' <META NAME="Description"\r\n'
+<class 'bytes'>
+b'       CONTENT="A web server log fragment explained">\r\n'
+<class 'bytes'>
+b' <META NAME="Generator" CONTENT="AscToHTM from www.jafsoft.com">\r\n'
+<class 'bytes'>
+b' <META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">\r\n'
+<class 'bytes'>
+b'<STYLE TYPE="text/css">\r\n'
+<class 'bytes'>
+b'<!-- \r\n'
+<class 'bytes'>
+b' H1, H2, H3, H4, H5, H6\r\n'
+<class 'bytes'>
+b'\t{ color: Blue;\t}\r\n'
+<class 'bytes'>
+b' -->\r\n'
+<class 'bytes'>
+b'</STYLE>\r\n'
+<class 'bytes'>
+b'</HEAD>\r\n'
+<class 'bytes'>
+b'<BODY BGCOLOR="#BBBBBB">\r\n'
+<class 'bytes'>
+b'<A NAME="a_web_server_log_file_sample_explained"> </A>\r\n'
+<class 'bytes'>
+b'<H2>A web server log file sample explained</H2>\r\n'
+<class 'bytes'>
+b'\r\n'
+<class 'bytes'>
+b'<P>This page discusses the information that be can extracted from such logs, and - to a limited extent - how this could\r\n'
+<class 'bytes'>
+b'impact on your privacy when surfing.</P>\r\n'
+<class 'bytes'>
+b'\r\n'
+<class 'bytes'>
+b'\r\n'
+<class 'bytes'>
+b'<P>The following is a fragment from the server logs for JafSoft Limited.  All the relative\r\n'
+<class 'bytes'>
+b'URLs are for the base URL <A HREF="http://www.jafsoft.com/">http://www.jafsoft.com/</A>.\r\n'
+<class 'bytes'>
+b'</P>\r\n'
+<class 'bytes'>
+b'<P>\r\n'
+<class 'bytes'>
+b'First lets look at a fragment of log file....\r\n'
+<class 'bytes'>
+b'</P>\r\n'
+<class 'bytes'>
+b'<HR NOSHADE>\r\n'
+<class 'bytes'>
+b'<!-- User-specified pre-formatted text -->\r\n'
+<class 'bytes'>
+b'<PRE>\r\n'
+<class 'bytes'>
+b'fcrawler.looksmart.com - - [26/Apr/2000:00:00:12 -0400] "GET /contacts.html HTTP/1.0" 200 4595 "-" "FAST-WebCrawler/2.1-pre2 (ashen@looksmart.net)"\r\n'
+<class 'bytes'>
+b'fcrawler.looksmart.com - - [26/Apr/2000:00:17:19 -0400] "GET /news/news.html HTTP/1.0" 200 16716 "-" "FAST-WebCrawler/2.1-pre2 (ashen@looksmart.net)"\r\n'
+<class 'bytes'>
+b'\r\n'
+<class 'bytes'>
+b'ppp931.on.bellglobal.com - - [26/Apr/2000:00:16:12 -0400] "GET /download/windows/asctab31.zip HTTP/1.0" 200 1540096 "<A HREF="http://www.htmlgoodies.com/downloads/freeware/webdevelopment/15.html">http://www.htmlgoodies.com/downloads/freeware/webdevelopment/15.html</A>" "Mozilla/4.7 [en]C-SYMPA  (Win95; U)"\r\n'
+<class 'bytes'>
+b'\r\n'
+<class 'bytes'>
+b'123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/wpaper.gif HTTP/1.0" 200 6248 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+<class 'bytes'>
+b'123.123.123.123 - - [26/Apr/2000:00:23:47 -0400] "GET /asctortf/ HTTP/1.0" 200 8130 "<A HREF="http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF">http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+<class 'bytes'>
+b'123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/5star2000.gif HTTP/1.0" 200 4005 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+<class 'bytes'>
+b'123.123.123.123 - - [26/Apr/2000:00:23:50 -0400] "GET /pics/5star.gif HTTP/1.0" 200 1031 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+<class 'bytes'>
+b'123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /pics/a2hlogo.jpg HTTP/1.0" 200 4282 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+<class 'bytes'>
+b'123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /cgi-bin/newcount?jafsof3&amp;width=4&amp;font=digital&amp;noshow HTTP/1.0" 200 36 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"\r\n'
+<class 'bytes'>
+b'</PRE>\r\n'
+<class 'bytes'>
+b'<!-- end of user-specified pre-formatted text -->\r\n'
+<class 'bytes'>
+b'<BR>\r\n'
+<class 'bytes'>
+b'<HR NOSHADE>\r\n'
+<class 'bytes'>
+b'\r\n'
+<class 'bytes'>
+b"<P><EM>(Note, I've added some space for clarity, and changed the IP number to\r\n"
+<class 'bytes'>
+b'123.123.123.123 to protect\r\n'
+<class 'bytes'>
+b'the privacy of the actual visitor)</EM></P>\r\n'
+<class 'bytes'>
+b'\r\n'
+<class 'bytes'>
+b'\r\n'
+<class 'bytes'>
+b'<P>The fragment shown represents three visitors to my web site</P>\r\n'
+<class 'bytes'>
+b'\r\n'
+<class 'bytes'>
+b'<BLOCKQUOTE>\r\n'
+<class 'bytes'>
+b' <OL type="1" start="1">\r\n'
+<class 'bytes'>
+b'   <LI VALUE="1">\r\n'
+<class 'bytes'>
+b'    A visit from the "FAST-WebCrawler" web spider from the <A HREF="http://www.looksmart.com/">www.looksmart.com</A> site.  This\r\n'
+<class 'bytes'>
+
+
+
+
+
+for line in F:
+    #print(line)
+    #print(type(line))
+    line=line.decode() #decode will convert to string
+    #print(type(line))
+    m=re.match('(\d\d\d\.\d{3}[.]\d{1,3}\.[0-9]{3}).*',line) #match function is expecting second argument as a string to compare with the first argument which is a pattern
+    '''in pattern matching: digit-> \d 
+                            any character-> . -> takes only one character
+                            dot-> \.
+                            repetition of n values-> {n} ->expecting a fixed number of values (in curly brackets, it's the quantity, so quantifier)
+                            {n,m} -> can take any number of digits from n to m
+                            [.] <-any character is that character only
+                            non-digit-> \D
+                            [0-9] <- can be anything between 0 to 9
+                            * <- 0 or more
+                            + <- 1 or more
+                            ? <- 0 or 1
+                            eg's: 1. (abc)* -> strictly abc 0 or more times
+                            2. [abc]{3} -> a or b or c can be matched 3 times
+                            3. r[ea]?d -> will match rd, red, rad
+                            4. r[ea]+d -> will match red, rad, read
+                            '''
+    if m!=None:
+        ip=m.group(1) #grouping the ipn address
+        print(line)
+        print(ip)
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/regex.py"
+123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/wpaper.gif HTTP/1.0" 200 6248 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+123.123.123.123 - - [26/Apr/2000:00:23:47 -0400] "GET /asctortf/ HTTP/1.0" 200 8130 "<A HREF="http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF">http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/5star2000.gif HTTP/1.0" 200 4005 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+123.123.123.123 - - [26/Apr/2000:00:23:50 -0400] "GET /pics/5star.gif HTTP/1.0" 200 1031 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /pics/a2hlogo.jpg HTTP/1.0" 200 4282 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /cgi-bin/newcount?jafsof3&amp;width=4&amp;font=digital&amp;noshow HTTP/1.0" 200 36 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+123.123.123.123 to protect
+
+123.123.123.123
+
+Process finished with exit code 0
+
+
+for line in F:
+    line = line.decode()
+    m = re.match('(\d\d\d\.\d{3}[.]\d{1,3}[.][0-9]{3}).*?(\d{1,2}/[a-zA-Z]{3}/\d{4}).*', line)
+    if m != None:
+        ip = m.group(1)
+        dt = m.group(2)
+        print(line)
+        print(ip)
+        print(dt)
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/regex.py"
+123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/wpaper.gif HTTP/1.0" 200 6248 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+123.123.123.123 - - [26/Apr/2000:00:23:47 -0400] "GET /asctortf/ HTTP/1.0" 200 8130 "<A HREF="http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF">http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/5star2000.gif HTTP/1.0" 200 4005 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+123.123.123.123 - - [26/Apr/2000:00:23:50 -0400] "GET /pics/5star.gif HTTP/1.0" 200 1031 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /pics/a2hlogo.jpg HTTP/1.0" 200 4282 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /cgi-bin/newcount?jafsof3&amp;width=4&amp;font=digital&amp;noshow HTTP/1.0" 200 36 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+
+Process finished with exit code 0
+
+
+
+
+for line in F:
+    line = line.decode()
+    m = re.match('(\d\d\d\.\d{3}[.]\d{1,3}[.][0-9]{3}).*?(\d{1,2}/[a-zA-Z]{3}/\d{4}).*(?:GET|POST)\s+/(?:PICS/(\w+\.w+))?.*', line)
+    if m != None:
+        ip = m.group(1)
+        dt = m.group(2)
+        im = m.group(3)
+        #print(line)
+        print(ip)
+        print(dt)
+        print(im)
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/regex.py"
+123.123.123.123
+26/Apr/2000
+None
+123.123.123.123
+26/Apr/2000
+None
+123.123.123.123
+26/Apr/2000
+None
+123.123.123.123
+26/Apr/2000
+None
+123.123.123.123
+26/Apr/2000
+None
+123.123.123.123
+26/Apr/2000
+None
+
+Process finished with exit code 0
+
+
+
+for line in F:
+    line = line.decode()
+    m = re.match('(\d\d\d\.\d{3}[.]\d{1,3}[.][0-9]{3}).*?(\d{1,2}/[a-zA-Z]{3}/\d{4}).*(?:GET|POST)\s+/(?:PICS/(\w+\.w+))?.*', line)
+    if m != None:
+        ip = m.group(1)
+        dt = m.group(2)
+        im = m.group(3)
+        if im == None:
+            im = 'No Image'
+        #print(line)
+        print(ip)
+        print(dt)
+        print(im)
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/regex.py"
+123.123.123.123
+26/Apr/2000
+No Image
+123.123.123.123
+26/Apr/2000
+No Image
+123.123.123.123
+26/Apr/2000
+No Image
+123.123.123.123
+26/Apr/2000
+No Image
+123.123.123.123
+26/Apr/2000
+No Image
+123.123.123.123
+26/Apr/2000
+No Image
+
+Process finished with exit code 0
+
+
+for line in F:
+    line = line.decode()
+    m = re.match('(\d\d\d\.\d{3}[.]\d{1,3}[.][0-9]{3}).*?(\d{1,2}/[a-zA-Z]{3}/\d{4}).*(?:GET|POST)\s+/(?:PICS/(\w+\.w+))'
+                 '?.*(http://\S+)</A>.*', line)
+    if m != None:
+        ip = m.group(1)
+        dt = m.group(2)
+        im = m.group(3)
+        if im == None:
+            im = 'No Image'
+        wb = m.group(4)
+        print(line)
+        print(ip)
+        print(dt)
+        print(im)
+        print(wb)
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/regex.py"
+123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/wpaper.gif HTTP/1.0" 200 6248 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+123.123.123.123 - - [26/Apr/2000:00:23:47 -0400] "GET /asctortf/ HTTP/1.0" 200 8130 "<A HREF="http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF">http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/5star2000.gif HTTP/1.0" 200 4005 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+123.123.123.123 - - [26/Apr/2000:00:23:50 -0400] "GET /pics/5star.gif HTTP/1.0" 200 1031 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /pics/a2hlogo.jpg HTTP/1.0" 200 4282 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /cgi-bin/newcount?jafsof3&amp;width=4&amp;font=digital&amp;noshow HTTP/1.0" 200 36 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+
+Process finished with exit code 0
+
+
+
+for line in F:
+    line = line.decode()
+    m = re.match('(\d\d\d\.\d{3}[.]\d{1,3}[.][0-9]{3}).*?(\d{1,2}/[a-zA-Z]{3}/\d{4}).*(?:GET|POST)\s+/(?:PICS/(\w+\.w+))'
+                 '?.*(http://\S+)</A>.*', line)
+    if m != None:
+        ip = m.group(1)
+        dt = m.group(2)
+        im = m.group(3)
+        if im == None:
+            im = 'No Image'
+        wb = m.group(4)
+        print(line)
+        print(ip)
+        print(dt)
+        print(im)
+        print(wb)
+        query = f"INSERT INTO LOGDATA VALUES('{ip}', '{dt}', '{im}', '{wb}')"
+        print(query)
+        cur.execute(query)
+con.commit()
+
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/regex.py"
+123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/wpaper.gif HTTP/1.0" 200 6248 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')
+123.123.123.123 - - [26/Apr/2000:00:23:47 -0400] "GET /asctortf/ HTTP/1.0" 200 8130 "<A HREF="http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF">http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF')
+123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/5star2000.gif HTTP/1.0" 200 4005 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')
+123.123.123.123 - - [26/Apr/2000:00:23:50 -0400] "GET /pics/5star.gif HTTP/1.0" 200 1031 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')
+123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /pics/a2hlogo.jpg HTTP/1.0" 200 4282 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')
+123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /cgi-bin/newcount?jafsof3&amp;width=4&amp;font=digital&amp;noshow HTTP/1.0" 200 36 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')
+
+Process finished with exit code 0
+
+
+for line in F:
+    line = line.decode()
+    m = re.match('(\d\d\d\.\d{3}[.]\d{1,3}[.][0-9]{3}).*?(\d{1,2}/[a-zA-Z]{3}/\d{4}).*(?:GET|POST)\s+/(?:PICS/(\w+\.w+))'
+                 '?.*(http://\S+)</A>.*', line)
+    if m != None:
+        ip = m.group(1)
+        dt = m.group(2)
+        im = m.group(3)
+        if im == None:
+            im = 'No Image'
+        wb = m.group(4)
+        print(line)
+        print(ip)
+        print(dt)
+        print(im)
+        print(wb)
+        query = f"INSERT INTO LOGDATA VALUES('{ip}', '{dt}', '{im}', '{wb}')"
+        print(query)
+        cur.execute(query)
+
+con.commit()
+
+cur.execute('SELECT * FROM LOGDATA')
+result = cur.fetchall()
+print('result =', result)
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/regex.py"
+123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/wpaper.gif HTTP/1.0" 200 6248 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')
+123.123.123.123 - - [26/Apr/2000:00:23:47 -0400] "GET /asctortf/ HTTP/1.0" 200 8130 "<A HREF="http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF">http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF')
+123.123.123.123 - - [26/Apr/2000:00:23:48 -0400] "GET /pics/5star2000.gif HTTP/1.0" 200 4005 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')
+123.123.123.123 - - [26/Apr/2000:00:23:50 -0400] "GET /pics/5star.gif HTTP/1.0" 200 1031 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')
+123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /pics/a2hlogo.jpg HTTP/1.0" 200 4282 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')
+123.123.123.123 - - [26/Apr/2000:00:23:51 -0400] "GET /cgi-bin/newcount?jafsof3&amp;width=4&amp;font=digital&amp;noshow HTTP/1.0" 200 36 "<A HREF="http://www.jafsoft.com/asctortf/">http://www.jafsoft.com/asctortf/</A>" "Mozilla/4.05 (Macintosh; I; PPC)"
+
+123.123.123.123
+26/Apr/2000
+No Image
+http://www.jafsoft.com/asctortf/
+INSERT INTO LOGDATA VALUES('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')
+result = [('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'), ('123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/')]
+
+Process finished with exit code 0
+
+
+
+# Dumping of result contents into csv file:
+
+import csv
+
+F = open('dbdump.csv', 'w', newline='')
+wt = csv.writer(F)
+wt.writerow(['IP', 'DATE', 'PICS', 'URL'])
+for each_row in result:
+    wt.writerow(each_row)
+F.close()
+
+
+Output in dbdump.csv:
+IP,DATE,PICS,URL
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+123.123.123.123,26/Apr/2000,No Image,http://www.jafsoft.com/asctortf/
+
+
+F = open('dbdump.csv')
+rdr = csv.reader(F)
+csv_out = list(rdr)
+print('csv_out = ', csv_out)
+
+Output:
+csv_out =  [['IP', 'DATE', 'PICS', 'URL'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://search.netscape.com/Computers/Data_Formats/Document/Text/RTF'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/'], ['123.123.123.123', '26/Apr/2000', 'No Image', 'http://www.jafsoft.com/asctortf/']]
+
+
+
+
+
+import pandas as pd
+df1 = pd.DataFrame([[10, 20, 30], [40, 50, 60]])
+print(df1)
+
+L1 = list([[10, 20, 30], [40, 50, 60]])
+print(L1)
+
+
+Output:
+ 0   1   2
+0  10  20  30
+1  40  50  60
+[[10, 20, 30], [40, 50, 60]]
+
+
+import pandas as pd
+df1 = pd.DataFrame([[10, 20, 30], [40, 50, 60]], index = ['r1', 'r2'], columns = ['c1', 'c2', 'c3'])
+print(df1)
+
+
+Output:
+    c1  c2  c3
+r1  10  20  30
+r2  40  50  60
+
+
+
+
+df2 = pd.DataFrame(result)
+print(df2)
+df2.to_csv('out3.csv', index=None, header=['IP', 'DATE', 'PICS', 'URL'])
+
+cur.execute('SELECT * FROM LOGDATA')
+df3 = pd.DataFrame(cur)
+df3.to_csv('out4.csv')
+
+df3.to_excel('out5.xlsx')
+df4 = df3.T
+df4.to_json('out6.json')

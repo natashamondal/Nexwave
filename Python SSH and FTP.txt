@@ -1,0 +1,44 @@
+import paramiko as p
+client = p.SSHClient()
+client.set_missing_host_key_policy(p.AutoAddPolicy)
+client.connect('test.rebex.net', username='demo', password='password', port=22)
+
+stdin, out, err = client.exec_command('ls')
+cmd_out = out.read()
+print('cmd_out = ', cmd_out)
+
+ftp = client.open_sftp()
+ftp_out = ftp.get('readme.txt', 'ftp_readme.txt')
+print('ftp_out = ', ftp_out)
+
+ftp = client.open_sftp()
+ftp_out = ftp.get('readme.txt', 'ftp_readme.txt')
+print('ftp_out =', ftp_out)
+ftp.put('out1.txt', 'out1.txt')
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/ssh.py"
+cmd_out =  b'aspnet_client\npub\nreadme.txt\n'
+
+ftp_out =  None
+
+ftp_out = None
+Traceback (most recent call last):
+  File "C:/Python Training/bin/ssh.py", line 17, in <module>
+    ftp.put('out1.txt', 'out1.txt')
+  File "C:\Python Training\myvenv1\lib\site-packages\paramiko\sftp_client.py", line 759, in put
+    return self.putfo(fl, remotepath, file_size, callback, confirm)
+  File "C:\Python Training\myvenv1\lib\site-packages\paramiko\sftp_client.py", line 714, in putfo
+    with self.file(remotepath, "wb") as fr:
+  File "C:\Python Training\myvenv1\lib\site-packages\paramiko\sftp_client.py", line 372, in open
+    t, msg = self._request(CMD_OPEN, filename, imode, attrblock)
+  File "C:\Python Training\myvenv1\lib\site-packages\paramiko\sftp_client.py", line 813, in _request
+    return self._read_response(num)
+  File "C:\Python Training\myvenv1\lib\site-packages\paramiko\sftp_client.py", line 865, in _read_response
+    self._convert_status(msg)
+  File "C:\Python Training\myvenv1\lib\site-packages\paramiko\sftp_client.py", line 896, in _convert_status
+    raise IOError(errno.EACCES, text)
+PermissionError: [Errno 13] Access denied.
+
+Process finished with exit code 1
