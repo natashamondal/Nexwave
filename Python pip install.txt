@@ -1,0 +1,9 @@
+In Terminal:
+(myvenv1) C:\Python Training\bin>pip install C:\Users\lab365\Downloads\bottle-0.12.18-py3-none-any.whl
+(myvenv1) C:\Python Training\bin>python -m pip install --upgrade pip
+(myvenv1) C:\Python Training\bin>pip list
+(myvenv1) C:\Python Training\bin>pip install flask
+
+
+In PyCharm:
+File-> Settings-> Project Interpreter-> click on + on the right side-> search selenium-> install
