@@ -1,0 +1,85 @@
+def add1(a, b):
+    print('RESULT IS =')
+    print(a + b + a)
+    print('END OF RESULT')
+
+
+def sub1(a, b):
+    print('RESULT IS =')
+    print(a - b)
+    print('END OF RESULT')
+
+
+add1(10, 20)
+sub1(10, 20)
+line = '-' * 40
+print(line)
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/decorators.py"
+RESULT IS =
+40
+END OF RESULT
+RESULT IS =
+-10
+END OF RESULT
+----------------------------------------
+
+
+
+# My Decorator
+def mydec(func):
+    # def decorated_func(x, y): # for 2 args
+    def decorated_func(*x, **y): # x=(10, 20, 30), y={}
+        print('RESULT IS =')
+        # func(x, y)
+        func(*x, **y) #func(10, 20, 30)
+        print('END OF RESULT')
+
+    return decorated_func
+
+
+@mydec
+def add2(a, b):
+    print(a + b + b)
+
+
+add2(10, 20)
+print(line)
+
+
+# how @mydec works?
+def add3(a, b):
+    print(a + b)
+
+
+f = mydec(add3)  # calling the func manually
+# f is pointing to decorated_func
+f(100, 200)
+print(f)  # in output it will refer to a function object
+print(line)
+
+@mydec
+def add4(a, b, c):
+    print(a + b + c)
+
+add4(10, 20, 30)
+
+
+
+Output:
+RESULT IS =
+50
+END OF RESULT
+----------------------------------------
+RESULT IS =
+300
+END OF RESULT
+<function mydec.<locals>.decorated_func at 0x0000020A2172E430>
+----------------------------------------
+RESULT IS =
+60
+END OF RESULT
+
+Process finished with exit code 0
