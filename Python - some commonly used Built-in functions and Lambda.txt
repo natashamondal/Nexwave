@@ -1,0 +1,81 @@
+# map
+L = [100, 200, 300, 400]
+
+
+def sub(i):
+    return i - 10
+
+
+r1 = map(sub, L)
+print(list(r1))
+print('-' * 40)
+
+
+# filter
+def filt(j):
+    return j > 100
+
+
+r2 = filter(filt, L)
+print(list(r2))
+print('-' * 40)
+
+# reduce
+import functools as fc
+
+
+def red(p, q):
+    return p + q
+
+
+r3 = fc.reduce(red, L)
+M = ['W', 'E', 'L']
+r4 = fc.reduce(red, M)
+print(r3, r4, sep='\n')
+print('-' * 40)
+
+# lambda functions (i. functions without a name,
+#                  ii. function body will have one line ie., single liner)
+
+r5 = map(lambda i: i - 10, L)
+r6 = filter(lambda j: j > 100, L)
+r7 = fc.reduce(lambda p, q: p + q, L)
+print(list(r5), list(r6), r7, sep='\n')
+print('-' * 40)
+
+f = lambda a, b: a + b
+r8 = f(10, 20)
+print('r8 =', r8)
+print('-' * 40)
+
+L = [(lambda i: i * i)(a) for a in range(10)]
+print('L =', L)
+print('-' * 40)
+
+
+Keys = ['A', 'B']
+Values = [10, 20]
+D = {K: (lambda i: i + i)(V) for K, V in zip(Keys, Values)}
+print('D =', D)
+ 
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/builtins_ex.py"
+[90, 190, 290, 390]
+----------------------------------------
+[200, 300, 400]
+----------------------------------------
+1000
+WEL
+----------------------------------------
+[90, 190, 290, 390]
+[200, 300, 400]
+1000
+----------------------------------------
+r8 = 30
+----------------------------------------
+L = [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+----------------------------------------
+D = {'A': 20, 'B': 40}
+
+Process finished with exit code 0
