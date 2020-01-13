@@ -1,0 +1,82 @@
+import flask
+
+# How to create website
+app = flask.Flask('MyApp')
+
+
+# app.run()
+@app.errorhandler(404)
+def errorpage(err):
+    return 'Page under Construction'
+
+
+@app.route('/')
+def indexpage():
+    return 'Welcome'
+
+
+@app.route('/about')
+def aboutpage():
+    return '<b> This is about </b>'
+
+
+@app.route('/login')
+def loginpage():
+    return '''
+    <html>
+    <form action = '/verify' method ='post'>
+    User Name : <input type = 'text' name = 'uname'/><br/>
+    Password : <input type = 'password' name = 'pw'/> <br/>
+               <input type = 'Submit' value = 'LOGIN'/>
+    </form>    
+    </html>'''
+
+
+# @app.route('/verify', methods=['post'])
+# def verifypage():
+#     u = flask.request.form.get('uname')
+#     p = flask.request.form.get('pw')
+#     if not (u == 'abc' and p == 'xyz'):
+#         return 'LOGIN FAILED'
+#     else:
+#         return 'SUCCESS'
+
+
+@app.route('/verify', methods = ['post'])
+def verify_page():
+    u = flask.request.form.get('uname')
+    p = flask.request.form.get('pw')
+    if not (u == 'abc' and p == 'xyz'):
+        return 'LOGIN FAILED'
+    else:
+        #bottle.TEMPLATE_PATH.append(r'C:\Python Training\bin')
+        import sqlite3
+        con = sqlite3.connect('mydb.sqlite3')
+        cur = con.cursor()
+        cur.execute('SELECT * FROM LOGDATA')
+        result = cur.fetchall()
+        return flask.render_template('report.html', res = result)
+
+
+@app.route('/download/<filename>') # string
+def downloadfile(filename):
+    return flask.send_from_directory(directory=r'C:\Python Training\bin', filename=filename)
+
+
+@app.route('/empid/<int:eid>') # int, float
+def empid(eid):
+    D = {'name':'abc', 'EMP-ID': eid}
+    return D
+
+
+@app.route('/logdata')
+def logdata():
+    return flask.redirect('/login')
+
+
+@app.route('/passwords')
+def password():
+    return flask.abort(201, 'Access Denied')
+
+
+app.run(host='192.168.3.92', port=8080)

@@ -1,0 +1,38 @@
+# creation of api using bottle
+# API - 1 -> IP
+# API 1 = http://127.0.0.1:8080/ip
+import bottle
+app = bottle.Bottle()
+@app.route('/ip', method = 'get')
+def api_ip():
+    import sqlite3
+    con = sqlite3.connect('mydb.sqlite3')
+    cur = con.cursor()
+    cur.execute('SELECT IP FROM LOGDATA')
+    result = cur.fetchall()
+    # return str(result)
+    result =[i[0] for i in result]
+    D = {K:V for K,V in enumerate(result)}
+    return D
+
+
+# API 2 = http://127.0.0.1:8080/emp
+@app.route('/emp', method='post')
+def empdetails():
+    details = bottle.request.params
+    details = dict(details)
+    return details
+
+@app.route('/json')
+def fromjson():
+    F = open('mydata.json','w')
+    D = {"course":"python", "loc":"blr"}
+    import json
+    json.dump(D, F)
+    F.close()
+    F = open('mydata.json')
+    r = json.load(F)
+    return r
+
+
+app.run(host = '127.0.0.1', port=8080)
