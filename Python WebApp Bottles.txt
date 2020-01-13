@@ -1,0 +1,117 @@
+import bottle
+
+# How to create website
+app = bottle.Bottle()
+
+
+# app.run()
+@app.error(404)
+def errorpage(err):
+    return 'Page under Construction'
+
+
+@app.route('/')
+def indexpage():
+    return 'Welcome'
+
+
+@app.route('/about')
+def aboutpage():
+    return '<b> This is about </b>'
+
+
+@app.route('/login')
+def loginpage():
+    return '''
+    <html>
+    <form action = '/verify' method ='post'>
+    User Name : <input type = 'text' name = 'uname'/><br/>
+    Password : <input type = 'password' name = 'pw'/> <br/>
+               <input type = 'Submit' value = 'LOGIN'/>
+    </form>    
+    </html>'''
+
+
+@app.route('/verify', method='post')
+def verifypage():
+    u = bottle.request.forms.get('uname')
+    p = bottle.request.forms.get('pw')
+    if not (u == 'abc' and p == 'xyz'):
+        return 'LOGIN FAILED'
+    else:
+        return 'SUCCESS'
+
+
+@app.route('/verify', method = 'post')
+def verifypage():
+    u = bottle.request.forms.get('uname')
+    p = bottle.request.forms.get('pw')
+    if not (u == 'abc' and p == 'xyz'):
+        return 'LOGIN FAILED'
+    else:
+        bottle.TEMPLATE_PATH.append(r'C:\Python Training\bin')
+        import sqlite3
+        con = sqlite3.connect('mydb.sqlite3')
+        cur = con.cursor()
+        cur.execute('SELECT * FROM LOGDATA')
+        result = cur.fetchall()
+        return bottle.template('report.tpl', res = result)
+
+In report.tpl:
+ <html>
+<head>
+<title> Welcome to Log Report </title>
+</head>
+<body>
+<h1> LOG REPORT </h1>
+<table border='1' bgcolor='green'>
+%for ip, dt, im, wb in res:
+%if im == 'No Image':
+<tr bgcolor='yellow'>
+<td> {{ip}} </td>
+<td> {{dt}} </td>
+<td bgcolor='red'> {{im}} </td>
+<td> {{wb}} </td>
+</tr>
+%else:
+<tr>
+<td> {{ip}} </td>
+<td> {{dt}} </td>
+<td> {{im}} </td>
+<td> {{wb}} </td>
+</tr>
+%end
+%end
+</table>
+</body>
+</html>
+
+
+@app.route('/download/<filename>') # string
+def downloadfile(filename):
+    return bottle.static_file(root=r'C:\Python Training\bin', filename=filename)
+
+
+@app.route('/empid/<eid:int>') # int, float
+def empid(eid):
+    D = {'name':'abc', 'EMP-ID': eid}
+    return D
+
+
+@app.route('/nameid/<nid:re:[a-z0-9]+>')
+def name_id(nid):
+    return str(nid)
+
+
+@app.route('/logdata')
+def logdata():
+    return bottle.redirect('/login')
+
+
+@app.route('/passwords')
+def password():
+    return bottle.abort(201, 'Access Denied')
+
+
+
+app.run(host='192.168.3.92', port=8080)
