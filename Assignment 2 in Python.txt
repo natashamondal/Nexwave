@@ -1,0 +1,50 @@
+Assignment 2:
+Create a python program that creates a dictionary of 5 devices for the foll. devices(ROM, HDD, FDD, RAM, CPU).
+Each device in your dictionary should contain the name of the device and a description of the device.
+Allow for user input to be able to perform some look up from the dictionary and display if the device exists, display device description.
+Also allow user input to be able to search for device information just by typing in the first letter of a particular device. If more than one device exists for an initial letter, 
+then display each matching device information sorted by device. Include a default message if a devoice does not exist for a particular search request.
+
+
+Code:
+
+d={'ROM':'Read Only Memory','HDD':'Hard Disk Drive','FDD':'Floppy Disk Drive','RAM':'Random Access Memory','CPU':'Central Processing Unit'}
+
+dev_key=d.keys()
+dev_key=list(dev_key)
+dev_key.sort()
+
+
+print('Dictionary consists of: ',dev_key, 'devices')
+
+while True:
+    dev_name = input('Enter a device name to be searched :')
+    if dev_name in dev_key:
+        print(d[dev_name])
+
+    elif len(dev_name)>1:
+        print('Not found')
+    else:
+        for dev in dev_key:
+            if dev.startswith(dev_name):
+                print(d[dev])
+
+    ch=input('Do you want to continue? (y/n):')
+    if ch=='n':
+        break
+
+
+Output:
+
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/Assignment2.py"
+Dictionary consists of:  ['CPU', 'FDD', 'HDD', 'RAM', 'ROM'] devices
+Enter a device name to be searched :RAM
+Random Access Memory
+Do you want to continue? (y/n):y
+Enter a device name to be searched :xyz
+Not found
+Do you want to continue? (y/n):y
+Enter a device name to be searched :R
+Random Access Memory
+Read Only Memory
+Do you want to continue? (y/n):n

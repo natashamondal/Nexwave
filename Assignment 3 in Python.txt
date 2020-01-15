@@ -1,0 +1,111 @@
+Assignment 3:
+I have ssh output captured in a file SSH_log_Sample.txt
+
+Mar 19 14:45:40 eee sshd[21157]: Server listening on 0.0.0.0 port 22.
+Mar 19 14:45:40 eee sshd[21157]: Server listening on :: port 22.
+debug1: sshd version OpenSSH_6.8, LibreSSL 2.1
+debug1: private host key #0: ssh-rsa SHA256:X9e6YzNXMmr1O09LVoQLlCau2ej6TBUxi+Y590KVsds
+debug1: private host key #1: ssh-dss SHA256:XcPAY4soIxU2IMtYmnErrVOjKEEvCc3l5hOctkbqeJ0
+debug1: private host key #2: ecdsa-sha2-nistp256 SHA256:QIWi4La8svQSf5ZYow8wBHN4tF0jtRlkIaLCUQRlxRI
+debug1: private host key #3: ssh-ed25519 SHA256:fRWrx5HwM7E5MRcMFTdH95KwaExLzAZqWlwULyIqkVM
+debug1: rexec_argv[0]='/usr/sbin/sshd'
+debug1: rexec_argv[1]='-d'
+debug1: Bind to port 22 on 0.0.0.0.
+Server listening on 0.0.0.0 port 22.
+debug1: Bind to port 22 on ::.
+Server listening on :: port 22.
+debug2: load_server_config: filename /etc/ssh/sshd_config
+debug2: load_server_config: done config len = 217
+debug2: parse_server_config: config /etc/ssh/sshd_config len 217
+debug3: /etc/ssh/sshd_config:52 setting AuthorizedKeysFile .ssh/authorized_keys
+debug3: /etc/ssh/sshd_config:86 setting UsePrivilegeSeparation sandbox          
+debug3: /etc/ssh/sshd_config:104 setting Subsystem sftp internal-sftp 
+debug1: sshd version OpenSSH_6.8, LibreSSL 2.1
+debug1: private host key #0: ssh-rsa SHA256:X9e6YzNXMmr1O09LVoQLlCau2ej6TBUxi+Y590KVsds
+debug1: private host key #1: ssh-dss SHA256:XcPAY4soIxU2IMtYmnErrVOjKEEvCc3l5hOctkbqeJ0
+debug1: private host key #2: ecdsa-sha2-nistp256 SHA256:QIWi4La8svQSf5ZYow8wBHN4tF0jtRlkIaLCUQRlxRI
+debug1: private host key #3: ssh-ed25519 SHA256:fRWrx5HwM7E5MRcMFTdH95KwaExLzAZqWlwULyIqkVM
+debug1: rexec_argv[0]='/usr/sbin/sshd'
+debug1: rexec_argv[1]='-ddd'
+debug2: fd 3 setting O_NONBLOCK
+debug1: Bind to port 22 on 0.0.0.0.
+Server listening on 0.0.0.0 port 22.
+debug2: fd 4 setting O_NONBLOCK
+debug1: Bind to port 22 on ::.
+...
+Mar 19 11:11:06 server sshd[54798]: Failed password for root from 122.121.51.193 port 59928 ssh2
+Mar 19 11:11:06 server sshd[54798]: Failed password for root from 122.121.51.193 port 59928 ssh2
+Mar 19 11:11:07 server sshd[54798]: Failed password for root from 122.121.51.193 port 59928 ssh2
+Mar 19 11:11:08 server sshd[54798]: Failed password for root from 122.121.51.193 port 59928 ssh2
+Mar 19 11:11:09 server sshd[54798]: Failed password for root from 122.121.51.193 port 59928 ssh2
+Mar 19 11:11:10 server sshd[54798]: Failed password for root from 122.121.51.193 port 59928 ssh2
+Mar 19 11:11:10 server sshd[54798]: error: maximum authentication attempts exceeded for root from 122.121.51.193 port 59928 ssh2 [preauth]
+Mar 19 11:11:10 server sshd[54798]: Disconnecting authenticating user root 122.121.51.193 port 59928: Too many authentication failures [preauth]
+...
+Mar 14 19:50:59 server sshd[18884]: Accepted password for fred from 192.0.2.60 port 6647 ssh2
+
+Output to be produced
+----------------------------------------
+No. of failed login attempt:  6
+sshd version:  OpenSSH_6.8,
+Encryption:  SHA256
+Successful Login User:  fred
+ip:  192.0.2.60
+port:  6647
+
+
+
+
+
+Code:
+F = open('SSH_log_Sample.txt')
+
+count = 0
+for line in F:
+    if 'Failed password' in line:
+        count += 1
+
+    if 'sshd version' in line:
+        sp = line.split()
+        #print(sp)
+        index = sp.index('version')
+
+    if 'private host key' in line:
+        sp1 = line.split()
+        #print(sp1)
+        index1 = sp1.index('key')
+        res = sp1[index1+3].split()
+        #print(res)
+        a = res[0]
+        #print(a)
+        b = a[:a.index(':')]
+        #print(b)
+
+    if 'Accepted password' in line:
+        sp3 = line.split()
+        #print(sp3)
+        index3 = sp3.index('password')
+        #print(index3)
+
+
+
+
+print('No. of failed login attempt: ', count)
+print('sshd version: ', sp[index+1])
+print('Encryption: ', b)
+print('Successful Login User: ', sp3[index3 + 2])
+print('ip: ', sp3[index3+4])
+print('port: ', sp3[index3+6])
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/assignment3.py"
+No. of failed login attempt:  6
+sshd version:  OpenSSH_6.8,
+Encryption:  SHA256
+Successful Login User:  fred
+ip:  192.0.2.60
+port:  6647
+
+Process finished with exit code 0
+
