@@ -1,0 +1,208 @@
+# multiple objects
+# inheritance
+# operator overloading
+
+class Account1:
+    def adduser(self, n): #instance method
+        self.name = n
+    def viewuser(self): #instance method
+        return self.name
+    bank = 'ICICI' #class variable
+    
+    @classmethod
+    def bankrules(cls, area):
+        return 'Bank Rules ' + area
+    
+    @staticmethod # with no args
+    def bankinfo():
+        return 'Bank Info'
+    
+    def __init__(self): #like a constructor
+        print('SB Logic Here')
+    
+cust1 = Account1() #call the class
+                   #i)creating object -> __new__
+                   #ii)initializing object -> __init__
+
+cust2 = Account1() #calling the method -> adduser(cust1,c1)
+cust1.adduser('c1')
+cust2.adduser('c2')
+print(cust1.viewuser())
+print(cust2.viewuser())
+
+#local, enclosed, global, instance, class variables
+#adduser, viewuser are instance methods of class Account1
+#name is a instance variable
+
+#there are two types of object - class object(there will be only one class object) and instance object
+#cust1, cust2 are instance objects
+#Account1 is class object
+
+print(Account1.bank) #to access
+print(cust1.name)
+print(Account1.bankrules('BLR'))
+print(Account1.bankinfo())
+print(Account1.viewuser(cust2))
+print('-'*40)
+
+class Account2(Account1):
+    def addaadhar(self, a):
+        self.aadhar = a
+    def viewaadhar(self):
+        return self.aadhar
+    def viewuser(self):
+        return 'Welcome '+self.name
+    def __init__(self):
+        #super().__init__() # one way for printing both use this if the immediate super class has the desired result
+        print('CA Logic Here') # writing only this will print only CA
+        Account1.__init__(self) # another way for printing both
+    
+    
+cust3 = Account2()
+cust3.adduser('c3')
+print(cust3.viewuser())
+print(Account2.bank)
+print(Account2.bankrules('BLR'))
+print(Account2.bankinfo())
+cust3.addaadhar('A1')
+print(cust3.viewaadhar())
+print('-'*40)
+
+
+class RBI:
+    def viewrules(self):
+        return 'RBI Rules'
+    
+class Account3(Account2, RBI): # multiple inheritance
+				# it will traverse from left to right.ie., frst search in Account2 if not found then Account1 and then RBI
+    pass
+
+
+cust4 = Account3()
+print(cust4.viewrules())
+cust4.adduser('c4')
+print(cust4.viewuser())
+print('-'*40)
+
+
+class Govt:
+    def viewrules(self):
+        return 'Govt Rules'
+    
+
+#first way    
+class Account4(Account3, Govt): # not found in Account3, Account2, Account1 so it went to RBI and printed RBI rules but we want Govt rules
+    pass
+
+cust5 = Account4()
+print(cust5.viewrules())
+print(Govt.viewrules(cust5))
+print('-'*40)
+
+
+#second way
+class Account5(Account3):
+    def __init__(self):
+        self.gov = Govt()
+
+        
+cust6 = Account5()
+print(cust6.viewrules())
+print(cust6.gov.viewrules())
+print('-'*40)
+
+
+class Account6():
+    def __init__(self, n):
+        self.name = n
+    def __add__(self,x):
+        return self.name + x.name
+    def __str__(self):
+        return self.name
+    def __len__(self):
+        return len(self.name)
+    def __iter__(self): #only for first iteration iter is used
+        self.count = 0
+        return self
+    def __next__(self): #for the rest of the iteration next is used
+        c = self.count
+        if c < len(self.name):
+            self.count += 1
+            return self.name[c]
+        else:
+            raise StopIteration
+        
+
+cust7 = Account6('abc')
+cust8 = Account6('xyz')
+result = cust7 + cust8 # '+' operator error so we have to use __add__
+print('result =', result)
+print('cust7 =', cust7) #it will print obj reference so we will use __str__ 
+print('length =', len(cust7)) # have to use __len__
+
+for i in cust7:
+    print('i =', i) #it will give error so to make any obj iterable we need to add two methods: '__iter__' and '__next__'
+
+
+
+from abc import ABC, abstractmethod
+class Account(ABC):
+    def adduser(self, a):
+        self.name = a
+    
+    @abstractmethod # importing this to restrict the viewuser method to be empty
+    def viewuser(self):
+        #return self.name #cz it varies from user to user what message they want
+        pass
+    
+#a = Account()
+
+class MyAccount(Account):
+    def viewuser(self):
+        return 'Hello ' +self.name
+    
+b = MyAccount()
+b.adduser('B')
+print(b.viewuser())
+
+
+Output:
+SB Logic Here
+SB Logic Here
+c1
+c2
+ICICI
+c1
+Bank Rules BLR
+Bank Info
+c2
+----------------------------------------
+CA Logic Here
+SB Logic Here
+Welcome c3
+ICICI
+Bank Rules BLR
+Bank Info
+A1
+----------------------------------------
+CA Logic Here
+SB Logic Here
+RBI Rules
+Welcome c4
+----------------------------------------
+CA Logic Here
+SB Logic Here
+RBI Rules
+Govt Rules
+----------------------------------------
+RBI Rules
+Govt Rules
+----------------------------------------
+result = abcxyz
+cust7 = abc
+length = 3
+i = a
+i = b
+i = c
+----------------------------------------
+Hello B
