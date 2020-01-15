@@ -142,7 +142,7 @@ print('length =', len(cust7)) # have to use __len__
 
 for i in cust7:
     print('i =', i) #it will give error so to make any obj iterable we need to add two methods: '__iter__' and '__next__'
-
+print('-'*40)
 
 
 from abc import ABC, abstractmethod
