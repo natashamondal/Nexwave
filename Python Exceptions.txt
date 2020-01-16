@@ -1,0 +1,114 @@
+a = 10
+# b = 10
+try:
+    r = a / b
+    print('r =', r)
+except:
+    print('SOME ERROR')
+
+print('-' * 40)
+
+try:
+    r2 = a / b
+    print('r2 =', r2)
+except NameError as n:
+    print('NE =', n)
+except(KeyError, IndexError):
+    print('KE or IE')
+
+print('-' * 40)
+
+L = []
+try:
+    print(L[1])
+except Exception as e:
+    print('e =', e)
+    print('type =', type(e))
+
+print('-' * 40)
+
+c = 10
+d = 10
+try:
+    r = c / d
+except:
+    print('In except')
+else:
+    r = c / c
+    print('In Else')
+
+# for try if there is an error it will go to except and if there is no error it will go to else.
+print('-' * 40)
+
+try:
+    r = c / d
+except:
+    print('In exception')
+    #print(xyz)
+finally:
+    print('In finally')
+
+# try-finally
+# try-except-finally
+# try-except-else-finally
+print('-' * 40)
+
+e = 10
+f = 0
+try:
+    if f == 0:
+        raise ZeroDivisionError
+    print('stmt-100')
+    r = e / f
+except ZeroDivisionError:
+    print('From raise')
+
+print('-' * 40)
+
+
+result = 'Test case failed'
+try:
+    assert 'success' in result, 'some test failed'
+    print('Test case Success')
+except AssertionError as ae:
+    print('ae =', ae)
+
+print('-' * 40)
+
+
+class MyError(Exception):
+    def __init__(self, m):
+        self.msg = m
+    def __str__(self):
+        return 'Error Details: ' + self.msg
+
+try:
+    if 'Success' not in result:
+        raise MyError('Test Failed')
+    else:
+        print('Execution Success')
+except MyError as me:
+    print('me =', me)
+
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/exceptions.py"
+SOME ERROR
+----------------------------------------
+NE = name 'b' is not defined
+----------------------------------------
+e = list index out of range
+type = <class 'IndexError'>
+----------------------------------------
+In Else
+----------------------------------------
+In finally
+----------------------------------------
+From raise
+----------------------------------------
+ae = some test failed
+----------------------------------------
+me = Error Details Test Failed
+
+Process finished with exit code 0
