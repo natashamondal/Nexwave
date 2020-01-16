@@ -1,0 +1,88 @@
+# open browser
+# type url
+# find field
+# type user, pwd
+# press enter
+# verify
+
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+browser = webdriver.Chrome() #open browser #download Chrome Driver and extract and copy the exe file in bin
+browser.get('http://192.168.3.92:8080/login') # type url
+user_field = browser.find_element_by_name('uname') #find field
+pass_field = browser.find_element_by_name('pw') #find field
+user_field.send_keys('abc') # type user
+pass_field.send_keys('xyz') # type pwd
+pass_field.send_keys(Keys.RETURN) # press enter
+try:
+    assert 'Log' in browser.title
+    print('Test Success')
+except AssertionError:
+    print('Test Failed')
+finally:
+    import time
+    time.sleep(2)
+    browser.close()
+
+import unittest
+class MyTests(unittest.TestCase):
+    def setUp(self):
+        self.browser = webdriver.Chrome()
+        print('In Setup...')
+    def test_testcase1(self): #test_anyname
+        browser = self.browser
+        browser.get('http://192.168.3.92:8080/login')  # type url
+        user_field = browser.find_element_by_name('uname')  # find field
+        pass_field = browser.find_element_by_name('pw')  # find field
+        user_field.send_keys('abc')  # type user
+        pass_field.send_keys('xyz')  # type pwd
+        pass_field.send_keys(Keys.RETURN)  # press enter
+        assert 'Log' in browser.title
+
+    def test_testcase2(self):  # test_anyname
+        browser = self.browser
+        browser.get('http://192.168.3.92:8080/login')  # type url
+        user_field = browser.find_element_by_name('uname')  # find field
+        pass_field = browser.find_element_by_name('pw')  # find field
+        user_field.send_keys('abc')  # type user
+        pass_field.send_keys('xyz')  # type pwd
+        pass_field.send_keys(Keys.RETURN)  # press enter
+        assert 'Log' in browser.title
+
+    def test_testcase3(self):  # test_anyname
+        browser = self.browser
+        browser.get('http://192.168.3.92:8080/login')  # type url
+        user_field = browser.find_element_by_name('uname')  # find field
+        pass_field = browser.find_element_by_name('pw')  # find field
+        user_field.send_keys('abc')  # type user
+        pass_field.send_keys('xyz')  # type pwd
+        pass_field.send_keys(Keys.RETURN)  # press enter
+        assert 'Log' in browser.title
+
+    def tearDown(self):
+        print('In tearDown...')
+        import time
+        time.sleep(2)
+        self.browser.close()
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+Output:
+"C:\Python Training\myvenv1\Scripts\python.exe" "C:/Python Training/bin/sel_testing.py"
+Test Success
+In Setup...
+In tearDown...
+.In Setup...
+In tearDown...
+.In Setup...
+In tearDown...
+.
+----------------------------------------------------------------------
+Ran 3 tests in 188.860s
+
+OK
+
+Process finished with exit code 0
