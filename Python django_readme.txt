@@ -43,5 +43,71 @@
 
             run the server and check for url http://127.0.0.1:8000/about/
 
+----------------------------------------------------------------------------------------------------------------------------------
 
+1)Make a templates directory in login
+make a html file named login.html and write
+<form action='/login/verify/' method='POST'>
+            Username:<input type='text' name='uname'/><br/>
+            Password:<input type='password' name='pw'/><br/>
+            <input type='submit' value='LOGIN'/>
+            </form>
+
+Go to login/views.py
+type return render(request,'login.html',{}) instead of return httpresponse
+
+2)We need to create table using model
+Go to login/model.py
+write
+from django.db import models
+class AccountModel(models.Model):
+    user=models.CharField(max_length=100)
+    pwd=models.CharField(max_length=100)
+    class Meta:
+        db_table='user_details'
+
+Then run these lines
+python manage.py makemigrations
+python manage.py migrate
+then check in db browser a table is made
+
+3)We want this table to be viewed on admin page
+go to login/admin.py
+write
+from .models import AccountModel
+admin.site.register(AccountModel)
+Go to /admin and u can see model there and add one username and passsword
+
+
+4)Now add this to model.py
+    def __str__(self): #This is written as if we make any changes to Model we dont have to write migrations
+        return self.user
+
+5)A username and password will be searched in db and if not found we will add one
+Add path('verify/',views.verifypage) to login/urls path
+We are getting an error CSRF thts becoz it creates a new token so we add
+{%csrf_token%} after form tag in html file
+Now no error will be there
+
+
+6)Now we will try to retrive username and password and if it is not present in db we create one
+Go to login/views
+Comment out the httpresponse and write
+def verifypage(request):
+    #return HttpResponse('Verified')
+    if request.method=='POST':
+        u=request.POST.get('uname')
+        p = request.POST.get('pw')
+        from .models import AccountModel as AM
+        try:
+            AM.object.get(user=u)
+            return HttpResponse('Login Success')
+        except:
+            a=AM()
+            a.user=u
+            a.pwd=p
+            a.save()
+            return HttpResponse('Account Created ')
+
+ 
 
